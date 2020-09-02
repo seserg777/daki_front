@@ -1,0 +1,13 @@
+<h5 class="mt-4" i18n>Categories tree</h5>
+<ul class="list mb-4">
+<li *ngFor="let category of categories" [class.parent]="category.childs.length" [class.opened]="category.cid == cid || checkOpenedChilds(category.childs)">
+    <fa-icon class="faPlusSquare" [icon]="faPlusSquare" (click)="toggle($event)"></fa-icon>
+    <fa-icon class="faMinusSquare" [icon]="faMinusSquare" (click)="toggle($event)"></fa-icon>
+    <a routerLink="/categories/{{category.cid}}">{{ category.title }}</a>
+    <ul *ngIf="category.childs.length">
+        <li *ngFor="let child of category.childs" [class.active]="child.cid == cid">
+            <a routerLink="/categories/{{child.cid}}">{{ child.title }}</a>
+        </li>
+    </ul>
+</li>
+</ul>

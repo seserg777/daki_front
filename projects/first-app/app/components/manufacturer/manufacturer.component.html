@@ -1,0 +1,11 @@
+<h1>
+    {{ manufacturer.title }}
+    <a *ngIf="isLoggedIn" routerLink="edit">
+        <fa-icon [icon]="faEdit"></fa-icon>
+    </a>
+    <span *ngIf="isLoggedIn" (click)="remove(manufacturer.manufacturer_id)">
+        <fa-icon [icon]="faTrashAlt"></fa-icon>
+    </span>
+</h1>
+<div class="short_description" [innerHTML]="manufacturer.short_description"></div>
+<div class="description" [innerHTML]="manufacturer.description"></div>

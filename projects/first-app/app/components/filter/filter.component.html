@@ -1,0 +1,36 @@
+<h5 i18n>Filter</h5>
+<p class="widget-title" i18n>Price range</p>
+<div class="form mb-4">
+    <div data-role="rangeslider" class="d-flex mt-4">
+        <input type="range" name="price-min" id="price-min" value="0" min="0" max="1000" (change)="priceFrom($event)" />
+        <input type="range" name="price-max" id="price-max" value="0" min="0" max="1000" (change)="priceTo($event)" />
+    </div>
+    <div class="rangeslider-values mt-3" i18n>
+        Price:
+        <strong>{{ varsPriceFrom | currency:'UAH' }}</strong>
+        -
+        <strong>{{ varsPriceTo | currency:'UAH' }}</strong>
+    </div>
+</div>
+<p class="widget-title" i18n>Filter by brand</p>
+<div class="form mb-4 manufacturers mb-4">
+    <form [formGroup]="filterForm">
+        <div class="control d-flex mb-2 align-items-center" *ngFor="let manufacturer of manufacturers; let i = index;">
+            <div *ngIf="spoilerManufacturersShow == true">
+                <label>
+                    <input class="mr-2" type="checkbox" (change)="onManufacturerChange($event)" [value]="manufacturers[i].manufacturer_id" >
+                    {{manufacturers[i].title}}
+                </label>
+                <span class="spoiler mt-1" *ngIf="(i + 1) == manufacturers.length" (click)="spoiler('manufacturers')">hide</span>
+            </div>
+
+            <div class="{{ i }}" *ngIf="i <= 4 && spoilerManufacturersShow == false">
+                <label>
+                    <input class="mr-2" type="checkbox" (change)="onManufacturerChange($event)" [value]="manufacturers[i].manufacturer_id" >
+                    {{manufacturers[i].title}}
+                </label>
+                <span class="spoiler mt-1" *ngIf="i == 4 && spoilerManufacturersShow == false" (click)="spoiler('manufacturers')">show more...</span>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,7 @@
+<div class="wrapper d-flex align-items-center justify-content-center">
+    <span class="current" (click)="change();">{{ currentLang }}</span>
+    <ul class="langs" [class.hide]="!show">
+        <li (click)="setCurrent('en')">en</li>
+        <li (click)="setCurrent('ru')">ru</li>
+    </ul>
+</div>

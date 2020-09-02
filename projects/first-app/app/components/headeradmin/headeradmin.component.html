@@ -1,0 +1,92 @@
+<nav class="navbar-default navbar-static-side pt-2" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-item">
+                <a [routerLink]="'/'">
+                    <fa-icon [icon]="faExternalLinkAlt" class="mr-2"></fa-icon>Frontend
+                </a>
+            </li>
+            <li class="nav-item">
+                <a [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }" [routerLink]="'/administrator'">
+                    <fa-icon [icon]="faUserShield" class="mr-2"></fa-icon>Control panel
+                </a>
+            </li>
+            <li class="nav-item dropright parent">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="dropdown($event)">
+                    <fa-icon [icon]="faUserAlt" class="mr-2"></fa-icon>Users
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item">
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/users'">List users</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/usergroups'">List usergroups</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/usergroups/create'">Create usergroup</a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/profile'">My profile</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropright parent">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="dropdown($event)">
+                    <fa-icon [icon]="faFolderOpen" class="mr-2"></fa-icon>Categories
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/categories'" class="dropdown-item">Categories</a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/categories/create'" class="dropdown-item">Create Category</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropright parent">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="dropdown($event)">
+                    <fa-icon [icon]="faNewspaper" class="mr-2"></fa-icon>Articles
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/articles/create'" class="dropdown-item">Create Article</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropright parent">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="dropdown($event)">
+                    <fa-icon [icon]="faShoppingCart" class="mr-2"></fa-icon>Shop
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/products'" class="dropdown-item">Products</a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/products/create'" class="dropdown-item">Create Product</a> 
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/manufacturers/create'" class="dropdown-item">Create Manufacturer</a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/orders'" class="dropdown-item">List Orders</a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/products/attributes'" class="dropdown-item">List Attributes</a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/products/attributes/edit'" class="dropdown-item">Create Attribute</a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/mediamanager'" class="dropdown-item">Mediamanager</a>
+                    </li>
+                    <li>
+                        <a [routerLinkActive]="['active']" [routerLink]="'/administrator/storeimport'" class="dropdown-item">Import</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a (click)="logout()"><fa-icon [icon]="faSignOutAlt" class="mr-2"></fa-icon>Log out</a>
+            </li>
+        </ul>
+    </div>
+</nav>

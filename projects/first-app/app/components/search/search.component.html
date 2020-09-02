@@ -1,0 +1,24 @@
+<div class="wrapper d-flex align-items-center">
+    <form class="search-form" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2 rounded-pill" type="search" i18n-placeholder placeholder="Search" aria-label="Search" (keyup)="search($event)" />
+    </form>
+
+    <div *ngIf="!!results && (results.products.length !== 0 || results.articles.length !== 0)" class="results">
+        <div class="inner pl-4 pr-4 pt-2 pb-4">
+            <ul class="products" *ngIf="results.products">
+                <li *ngFor="let result of results.products" class="mb-3 d-flex align-items-start">
+                    <!--<img *ngIf="!product.main_image" src="http://lorempixel.com/250/200/technics/{{ product.product_id }}" alt="{{ product.title }}"/>-->
+                    <!--<img *ngIf="product.main_image" src="http://node.peak-systems.net/public/images/store/products/{{  product.main_image }}" alt="{{ product.title }}" />-->
+                    <img *ngIf="result.image" class="mr-2" src="http://deps.ua//components/com_jshopping/files/img_products/thumb_{{  result.image }}" alt="{{ result.title }}" />
+                    <a routerLink="/products/{{ result.id }}" target="_blank">{{ result.title }}</a>
+                </li>
+            </ul>
+
+            <ul class="articles" *ngIf="results.articles">
+                <li *ngFor="let result of results.articles" class="mb-3">
+                    <a routerLink="/products/{{ result.id }}" target="_blank">{{ result.title }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

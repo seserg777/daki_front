@@ -1,0 +1,12 @@
+html,body {height:100%;}
+.content {
+    margin-top: 3rem;
+}
+.wrapper {
+    width: 100%;
+    overflow-x: hidden;
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+    height:100%;
+}

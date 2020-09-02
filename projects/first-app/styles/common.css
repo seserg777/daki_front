@@ -1,0 +1,12 @@
+html, body {
+    height: 100%;
+}
+body {
+    background:#F2EDDC;
+    font-family: 'Montserrat', sans-serif;
+    color: #404040;
+}
+.content {
+    margin-top:8rem;
+    width: 100%;
+}

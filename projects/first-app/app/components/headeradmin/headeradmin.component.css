@@ -1,0 +1,40 @@
+.navbar-default.navbar-static-side {
+    background-color: #2f4050;
+    height:100%;
+}
+.navbar-static-side .nav > li {
+    display: block;
+    width: 100%;
+    position: relative;
+}
+.navbar-static-side .nav > li > a,.navbar-static-side .nav > li > button {
+    background: none;
+    border: none;
+    color: #a7b1c2;
+    padding: 14px 20px 14px 25px;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    font-size: .9rem;
+    font-weight: 500;
+    box-shadow: none;
+    text-align: left;
+}
+.navbar-static-side .nav > li > a:hover,.navbar-static-side .nav > li > a:focus {
+    background-color: #293846;
+    color: white;
+    text-decoration:none;
+}
+.navbar-static-side .nav > li > a.active,.navbar-static-side .nav > li.parent.show > button {
+    border-left: 4px solid #19aa8d;
+    background: #293846;
+}
+.navbar-static-side .nav > li > ul > li > a {
+    font-size: 0.9rem;
+}
+@media (min-width: 768px){
+    .navbar-static-side {
+        z-index: 2001;
+        width: 220px;
+    }
+}

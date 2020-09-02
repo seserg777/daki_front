@@ -1,0 +1,42 @@
+<h3 i18n>Popular products</h3>
+<div class="row mb-4">
+    <div
+      class="col-md-3 py-4"
+      *ngFor="let product of productSegment"
+    >
+      <div class="product-container">
+        <div class="media-container pl-4 pr-4 pt-4 pb-4 d-flex justify-content-center align-items-center">
+          <img *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_full_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_full_image'] }}" alt="{{ product.title }}" />
+        </div>
+        <div class="product-desc pl-4 pr-4 pb-4">
+          <h2 class="product-name text-center"><a routerLink="/products/{{product.product_id}}">{{ product.title }}</a></h2>
+          <p class="product-price text-center">{{ product.price | currency:'UAH' }}</p>
+          
+          <div class="attributes" *ngIf="!!product.attributesSorted">
+            <div *ngFor="let attributes of product.attributesSorted;">
+                <ul class="attributes-list d-flex justify-content-center" *ngIf="!!attributes && !attributes[0].color">
+                  <li *ngFor="let attribute of attributes" data-value="{{ attribute.attr_value_id }}" class="pl-1 pr-1 mr-1 ml-1" (click)="changeAttribute(attribute);">
+                    {{ attribute.value }}
+                  </li>
+                </ul>
+
+                <ul class="attributes-list-color d-flex justify-content-center" *ngIf="!!attributes && !!attributes[0].color">
+                  <li *ngFor="let attribute of attributes" data-value="{{ attribute.attr_value_id }}" class="pl-1 pr-1 mr-1 ml-1" (click)="changeAttribute(attribute);">
+                    <span *ngIf="!!attribute.value" class="value">{{ attribute.value }}</span>
+                    <span *ngIf="!!attribute.color" class="color" [ngStyle]="{ 'background-color': attribute.color }"></span>
+                  </li>
+                </ul>
+            </div>
+          </div>
+          
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="state">
+              <span *ngIf="product.product_quantity > 0" class="badge badge-dark badge-pill">in stock</span>
+              <span *ngIf="product.product_quantity <= 0" class="badge badge-light badge-pill">not avaliable</span>
+            </div>
+            <button type="button" class="add-to-cart-btn" (click)="addToCart(product)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

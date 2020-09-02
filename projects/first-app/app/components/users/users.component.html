@@ -1,0 +1,30 @@
+<h1 class="mb-4">Users</h1>
+  <table *ngIf="!!usersSegment && usersSegment.length" class="table table-striped">
+    <thead class="thead-dark">
+      <th>ID</th>
+      <th>Name</th>
+      <th>E-mail</th>
+      <th>Group</th>
+      <th>State</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of usersSegment" >
+        <td><a routerLink="{{ user.id }}/edit">{{ user.id }}</a></td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>Group</td>
+        <td>
+          <span 
+            class="badge badge-pill pt-1 pb-1"
+            [class.badge-success]="user.state == 1"
+            [class.badge-danger]="user.state == 0"
+          >
+            <fa-icon [icon]="faCheckCircle" *ngIf="user.state == 1"></fa-icon>
+            <fa-icon [icon]="faTimesCircle" *ngIf="user.state == 0"></fa-icon>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <app-pagination *ngIf="paginationParams" [params]="paginationParams" (onChange)="paginate($event)"></app-pagination>

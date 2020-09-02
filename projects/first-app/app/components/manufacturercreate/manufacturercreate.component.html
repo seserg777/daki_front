@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h3>Create Manufacturer</h3>
+            <form [formGroup]="createManufacturerForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" formControlName="title" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+                    <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                        <div *ngIf="f.title.errors.required">Title is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Short description</label>
+                    <textarea formControlName="short_description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.short_description.errors }"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea formControlName="description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

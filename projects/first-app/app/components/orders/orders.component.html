@@ -1,0 +1,21 @@
+<h1>Orders</h1>
+<table class="table table-striped">
+    <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Summ</th>
+        <th>Date</th>
+    </tr>
+    <tr *ngFor="let order of ordersSegment" >
+        <td><a routerLink="/administrator/orders/{{ order.order_id }}">{{ order.order_id }}</a></td>
+        <td>{{ order.user_email }}</td>
+        <td>{{ order.summ }}</td>
+        <td>{{ order.hdate }}</td>
+    </tr>
+</table>
+
+<app-pagination
+  *ngIf="paginationParams"
+  [params]="paginationParams"
+  (onChange)="getOrders($event)"
+></app-pagination>

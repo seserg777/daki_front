@@ -1,0 +1,200 @@
+<div *ngIf="type == 'front'">
+  <div class="row mb-4">
+    <div class="col-md-3" *ngIf="showFilter || showCategoriesModule">
+      <app-filter></app-filter>
+      <app-categoriesmodule></app-categoriesmodule>
+    </div>
+
+    <div [class.col-md-9.mb-4]="showFilter || showCategoriesModule" [class.col-md-12.mb-4]="!showFilter && !showCategoriesModule" >
+
+        <div *ngIf="!!category">
+          <h1 class="mb-4">
+              {{ category.title }}
+              <a *ngIf="isLoggedIn" routerLink="edit" class="actions pl-2 pr-2">
+                  <fa-icon [icon]="faEdit"></fa-icon>
+              </a>
+              <span *ngIf="isLoggedIn" (click)="remove(category.cid)" class="actions pl-2 pr-2">
+                  <fa-icon [icon]="faTrashAlt"></fa-icon>
+              </span>
+          </h1>
+      </div>
+
+      <div *ngIf="!!category">
+        <div *ngIf="category.childs.length !== 0" class="row">
+            <div
+              class="col-md-4 py-2"
+              *ngFor="let child of category.childs"
+            >
+              <div class="category-container pl-3 pr-3 pt-2 pb-2 d-flex justify-content-center align-items-center">
+                <p><a routerLink="/categories/{{child.cid}}" class="title">{{ child.title }}</a></p>
+              </div>
+            </div>
+        </div>
+      </div>
+      
+      <div *ngIf="!!productSegment && productSegment.length" class="d-flex flex-wrap justify-content-end sort">
+        <div class="d-flex flex-wrap">
+          <div class="form-inline flex-nowrap">
+            <label class="text-nowrap mr-2 d-none d-sm-block" for="sorting" i18n>Sort by:</label>
+            <select class="form-control mr-sm-2 form-control-sm" id="sorting" (change)="changeSort($event)">
+              <option value="createdAt-desc" i18n>Date added</option>
+              <option value="price-asc" i18n>Low - Hight Price</option>
+              <option value="price-desc" i18n>High - Low Price</option>
+              <option value="title-asc" i18n>A - Z Order</option>
+              <option value="title-desc" i18n>Z - A Order</option>
+              <option value="hits-desc" i18n>Popular</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div
+          class="col-md-4 py-4"
+          *ngFor="let product of productSegment"
+        >
+          <div class="product-container">
+            <span class="wishlist" [class.active]="product.wishlist === true" (click)="addWishlist(product, $event)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z"/></svg>
+            </span>
+            <div class="media-container pl-4 pr-4 pt-4 pb-4 d-flex justify-content-center align-items-center" [class.more-media]="product.media.length > 1">
+              <img *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_full_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_full_image'] }}" alt="{{ product.title }}" />
+              <img *ngIf="!!product.media && !!product.media[1] && product.media[1]['webp_full_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[1]['webp_full_image'] }}" alt="{{ product.title }}" />
+              <button type="button" class="btn btn-preview" (click)="quickPreview(product)">Quick preview</button>
+            </div>
+            <div class="product-desc pl-4 pr-4 pb-4">
+              <h2 class="product-name text-center"><a routerLink="{{langPrefix}}/products/{{product.product_id}}">{{ product.title }}</a></h2>
+
+              <p class="product-price text-center" *ngIf="!product.price_calculated">{{ product.price | currency:'UAH' }}</p>
+              <p class="product-price calculated text-center" *ngIf="!!product.price_calculated">{{ product.price_calculated | currency:'UAH' }}</p>
+              
+              <div class="attributes" *ngIf="!!product.attributesSorted">
+                <div *ngFor="let attributes of product.attributesSorted;">
+                    <ul class="attributes-list d-flex justify-content-center" *ngIf="!!attributes && !attributes[0].color">
+                      <li *ngFor="let attribute of attributes" data-value="{{ attribute.attr_value_id }}" class="pl-1 pr-1 mr-1 ml-1" (click)="changeAttribute(attribute);">
+                        {{ attribute.value }}
+                      </li>
+                    </ul>
+
+                    <ul class="attributes-list-color d-flex justify-content-center" *ngIf="!!attributes && !!attributes[0].color">
+                      <li *ngFor="let attribute of attributes" data-value="{{ attribute.attr_value_id }}" class="pl-1 pr-1 mr-1 ml-1" (click)="changeAttribute(attribute);">
+                        <span *ngIf="!!attribute.value" class="value">{{ attribute.value }}</span>
+                        <span *ngIf="!!attribute.color" class="color" [ngStyle]="{ 'background-color': attribute.color }"></span>
+                      </li>
+                    </ul>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="state">
+                  <span *ngIf="product.product_quantity > 0" class="badge badge-dark badge-pill" i18n>in stock</span>
+                  <span *ngIf="product.product_quantity <= 0" class="badge badge-light badge-pill" i18n>not avaliable</span>
+                </div>
+                <button type="button" class="add-to-cart-btn" (click)="addToCart(product)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div clas="row">
+    <div class="col-md-9 offset-3">
+        <app-pagination
+          *ngIf="paginationParams"
+          [params]="paginationParams"
+          (onChange)="paginate($event)"
+        ></app-pagination>
+    </div>
+  </div>
+
+  <div *ngIf="!!category && !!category.description" class="col-md-9 offset-3">
+    <div class="category-description" [innerHTML]="category.description" ></div>
+  </div>
+
+  <!-- The Modal -->
+  <div *ngIf="quckProduct" class="modal-backdrop fade show"></div>
+  <div *ngIf="quckProduct" class="modal product-quick-view" id="myModal" [style.display]="showModal ? 'block' : 'none'">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">{{ quckProduct.title }}</h4>
+              <button type="button" class="close" data-dismiss="modal" (click) = "HideModal()">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-5">
+                  <img *ngIf="!!quckProduct.media && !!quckProduct.media[0] && quckProduct.media[0]['webp_full_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ quckProduct.media[0]['webp_full_image'] }}" alt="{{ quckProduct.title }}" />
+              </div>
+                      
+              <div class="col-md-7 pt-4 pt-lg-0">
+                <div class="manufactuer" *ngIf="quckProduct.manufacturer_code">Manufacturer code: {{ quckProduct.manufacturer_code }}</div>
+                <div class="product_ean" *ngIf="quckProduct.product_ean">Ean: {{ quckProduct.product_ean }}</div>
+                <div class="product_quantity" *ngIf="quckProduct.product_quantity">In stock: {{ quckProduct.product_quantity }}</div>
+                <div class="price h1 text-primary font-weight-light pt-3 pb-2">{{ quckProduct.price | currency:'UAH' }}</div>
+                <div class="manufactuer" *ngIf="quckProduct.manufacturer_id">
+                    Manufacturer: <a routerLink="/manufacturers/{{ quckProduct.manufacturer_id }}">{{ quckProduct.manufacturer_title }}</a>
+                </div>
+                <div class="category" *ngIf="quckProduct.category_id">
+                    Category: <a routerLink="/categories/{{ quckProduct.category_id }}">{{ quckProduct.category_title }}</a>
+                </div>
+                <div class="d-flex flex-wrap align-items-center pt-1 mt-2">
+                    <div>
+                        <input class="px-2 form-control mr-2" type="number" name="quantity" style="width: 3.2rem;" value="1" required="">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary px-5 mr-2" type="button" (click)="addToCart(quckProduct)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart mr-2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                            Add to cart
+                        </button>
+                    </div>
+                    <a class="btn box-shadow-0 nav-link-inline my-2" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart align-middle mr-1" style="width: 1.1rem; height: 1.1rem;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                        Add to wishlist
+                    </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="products-administrator-container" *ngIf="type == 'administrator'">
+  <h1 class="mb-4">Products</h1>
+  <table *ngIf="!!productSegment && productSegment.length" class="table table-striped">
+    <thead class="thead-dark">
+      <th>ID</th>
+      <th>Title</th>
+      <th>State</th>
+      <th>Media</th>
+      <th>Category</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of productSegment" >
+        <td>{{ product.product_id }}</td>
+        <td>
+          <a routerLink="{{ product.product_id }}/edit">{{ product.title }}</a>
+        </td>
+        <td>
+          <span 
+            class="badge badge-pill pt-1 pb-1"
+            [class.badge-success]="product.state == 1"
+            [class.badge-danger]="product.state == 0"
+          >
+            <fa-icon [icon]="faCheckCircle" *ngIf="product.state == 1"></fa-icon>
+            <fa-icon [icon]="faTimesCircle" *ngIf="product.state == 0"></fa-icon>
+          </span>
+        </td>
+        <td>
+          <img width="64" *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_full_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_full_image'] }}" alt="{{ product.title }}" />
+        </td>
+        <td>{{ product.category_title }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <app-pagination *ngIf="paginationParams" [params]="paginationParams" (onChange)="paginate($event)"></app-pagination>
+</div>

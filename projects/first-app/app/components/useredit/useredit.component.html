@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row">
+        <form class="col-md-12" [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
+            <div class="row d-felx mb-4">
+                <h3>
+                    Edit User
+                    <span *ngIf="user">: {{user.id}}</span>
+                </h3>
+                <button class="btn btn-danger ml-auto" type="button" (click)="remove(user.email);">
+                    <fa-icon [icon]="faTrashAlt" class="mr-1"></fa-icon>
+                    Delete
+                </button>
+                <button class="btn btn-success ml-auto" type="submit">
+                    <fa-icon [icon]="faSave" class="mr-1"></fa-icon>
+                    Save
+                </button>
+            </div>
+
+            <div class="row">
+                <ul class="nav nav-tabs mb-4">
+                    <li class="nav-item">
+                        <button type="button" [class.active] = "activeTab == 'main'" class="nav-link" href="#main" (click)="changeTab('main')">Main</button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" [class.active] = "activeTab == 'groups'" class="nav-link" href="#groups" (click)="changeTab('groups')">Groups</button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show pt-1" [class.active] = "activeTab == 'main'" id="main" role="tabpanel" aria-labelledby="description-tab">
+                    <div class="form-group">
+                        <label>Name *</label>
+                        <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                        <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                            <div *ngIf="f.name.errors.required">Name is required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>E-mail *</label>
+                        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.name.errors.required">E-mail is required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

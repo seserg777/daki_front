@@ -1,0 +1,34 @@
+<h3>Media manager</h3>
+
+<table class="table table-striped" *ngIf="!!list">
+    <thead class="thead-dark">
+        <th>Image</th>
+        <th>Type</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of list">
+            <td>
+                <img *ngIf="item.type === 'product' && !!item.webp_full_image" width="64" src="{{ environment.productImagesPath }}{{ item.webp_full_image }}" />
+            </td>
+            <td>
+                {{ item.type }}
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger btn-sm" (click)="deleteMedia(item);"><fa-icon [icon]="faTrashAlt"></fa-icon> Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div *ngIf="!!list">
+    <div clas="row">
+        <div class="col-md-9 offset-3">
+            <app-pagination
+              *ngIf="paginationParams"
+              [params]="paginationParams"
+              (onChange)="paginate($event)"
+            ></app-pagination>
+        </div>
+    </div>
+</div>

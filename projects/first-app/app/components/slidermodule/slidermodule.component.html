@@ -1,0 +1,28 @@
+<div class="box-container mb-4">
+    <div class="horizontal-container">
+        <div class="vertical-container">
+            <div class="content-container">
+                <swiper *ngIf="type == 'component' && show" class="swiper-container" [config]="config" [disabled]="disabled" (indexChange)="onIndexChange($event)" (swiperTransitionStart)="onSwiperEvent('transitionStart')" (swiperTransitionEnd)="onSwiperEvent('transitionEnd')">
+                    <div *ngFor="let slide of slides" class="swiper-slide">
+                        <div [innerHTML]="slide | safeHtml"></div>
+                    </div>
+                </swiper>
+
+                <div *ngIf="type == 'directive' && show" class="swiper-container" [disabled]="disabled" [swiper]="config" (indexChange)="onIndexChange($event)" (swiperTransitionStart)="onSwiperEvent('transitionStart')" (swiperTransitionEnd)="onSwiperEvent('transitionEnd')">
+                    <div class="swiper-wrapper">
+                        <div *ngFor="let slide of slides" class="swiper-slide">
+                            <div [innerHTML]="slide | safeHtml"></div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-scrollbar" [hidden]="config.scrollbar === false"></div>
+                    <div class="swiper-pagination" [hidden]="config.pagination === false"></div>
+
+                    <div class="swiper-button-prev" [hidden]="config.navigation === false"></div>
+                    <div class="swiper-button-next" [hidden]="config.navigation === false"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  

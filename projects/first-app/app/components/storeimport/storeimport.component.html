@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h3>Store Import</h3>
+            <form [formGroup]="importForm">
+                <div class="form-group">
+                    <label>Categories</label>
+                    <button type="button" (click)="emitFileInputClick($event)" data-type="categories">Choose file</button>
+                </div>
+                <div class="form-group">
+                    <label>Products</label>
+                    <button type="button" (click)="emitFileInputClick($event)" data-type="products">Choose file</button>
+                </div>
+                <div class="form-group">
+                    <label>Manufacturers</label>
+                    <button type="button" (click)="emitFileInputClick($event)" data-type="manufacturers">Choose file</button>
+                </div>
+                <div class="form-group">
+                    <label>Product Manufacturers</label>
+                    <button type="button" (click)="emitFileInputClick($event)" data-type="productsmanufacurers">Choose file</button>
+                </div>
+                <div class="form-group">
+                    <label>Product to Categories</label>
+                    <button type="button" (click)="emitFileInputClick($event)" data-type="productstocategories">Choose file</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+h5 {
+    font-weight: 600;
+}
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.list > li {
+    margin-bottom: 10px;
+}
+.list > li > a {
+    color: inherit;
+    font-size: .8rem;
+    line-height: .8rem;
+}
+.list > li > fa-icon {
+    margin-right: 5px;
+    cursor: pointer;
+    color: #027333;
+}
+.parent > ul {
+    display: none;
+}
+.list > li > ul {
+    list-style: none;
+}
+.list > li > ul > li > a {
+    color: inherit;
+    font-size: .7rem;
+    line-height: .7rem;
+}
+.parent > .faPlusSquare {
+    display: inline-block;
+}
+.parent > .faMinusSquare {
+    display: none;
+}
+.parent.opened > .faPlusSquare {
+    display: none;
+}
+.parent.opened > .faMinusSquare {
+    display: inline-block;
+}
+.parent.opened > ul {
+    display: block;
+}
+.parent.opened > a {
+    font-weight: 500;
+}
+li.active > a {
+    text-decoration: underline;
+}

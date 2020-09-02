@@ -1,0 +1,164 @@
+header {
+    margin-bottom:40px;
+    position:relative;
+    z-index:9;
+    background-color:#fff !important;
+    border-bottom:2px solid #e7e6e5;
+}
+.navbar {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+.navbar .navbar-brand {
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #30735A;
+}
+.navbar-nav .nav-link {
+    position: relative;
+    padding: .7rem 1.3rem;
+    padding-right: 0;
+    padding-left: 0;
+    font-weight: 500;
+}
+.navbar-btns {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+}
+.navbar-btns .navbar-btns-inner {
+    display: table;
+    height: 100%;
+    min-height: 100%;
+    table-layout: fixed;
+}
+.navbar-btns .navbar-btn {
+    display: table-cell;
+    width: 66.6666666667px;
+    height: 100%;
+    min-height: 100%;
+    padding: 0 .25rem;
+    border: 0;
+    background-color: transparent;
+    -webkit-transition: color 0.25s ease-in-out,background-color 0.25s ease-in-out,border-color 0.25s ease-in-out;
+    transition: color 0.25s ease-in-out,background-color 0.25s ease-in-out,border-color 0.25s ease-in-out;
+    font-size: .625rem;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    vertical-align: middle;
+    letter-spacing: .05em;
+    cursor: pointer;
+}
+.navbar-btns .navbar-btn {
+    display: table-cell;
+    width: 66.6666666667px;
+    height: 100%;
+    min-height: 100%;
+    padding: 0 .25rem;
+    border: 0;
+    background-color: transparent;
+    -webkit-transition: color 0.25s ease-in-out,background-color 0.25s ease-in-out,border-color 0.25s ease-in-out;
+    transition: color 0.25s ease-in-out,background-color 0.25s ease-in-out,border-color 0.25s ease-in-out;
+    font-size: .625rem;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+    vertical-align: middle;
+    letter-spacing: .05em;
+    cursor: pointer;
+}
+.navbar-light .navbar-btn {
+    color: rgba(0,0,0,0.65);
+    border-left: 1px solid #e7e7e7;
+}
+.navbar-nav .active>.nav-link::before, .navbar-nav .nav-link.active::before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: .125rem;
+    height: 100%;
+    background-color: #3B8C66;
+    content: '';
+}
+.greeting {
+    display: table-cell;
+    width: 66.6666666667px;
+    height: 100%;
+    min-height: 100%;
+    padding: 0 .25rem;
+    border: 0;
+    background-color: transparent;
+    transition: color 0.25s ease-in-out,background-color 0.25s ease-in-out,border-color 0.25s ease-in-out;
+    font-size: .625rem;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    letter-spacing: .05em;
+    cursor: pointer;
+    color: rgba(0,0,0,0.65);
+    border-left: 1px solid #e7e7e7;
+}
+.greeting svg {
+    display:block;
+    margin:0 auto 5px;
+}
+.greeting a {
+    color:inherit;
+}
+
+@media (min-width: 992px) {
+    .navbar-expand-lg {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-flow: row nowrap;
+        flex-flow: row nowrap;
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+    }
+    .navbar-expand-lg.navbar.fixed-top {
+        position: fixed;
+    }
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding-top: 1.75rem;
+        padding-bottom: 1.75rem;
+    }
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding-right: 1.3rem;
+        padding-left: 1.3rem;
+    }
+    .navbar-expand-lg .navbar-btns .navbar-btn {
+        width: 80px;
+    }
+    .navbar-expand-lg .navbar-expand-hidden, .navbar-expand-lg .dropdown-menu.show, .navbar-expand-lg .navbar-toggler {
+        display: none;
+    }
+    .navbar-expand-lg .navbar-nav .active>.nav-link::before, .navbar-expand-lg .navbar-nav .nav-link.active::before {
+        top: auto;
+        left: 50%;
+        width: 2rem;
+        height: .125rem;
+        margin-top: 1.9rem;
+        margin-left: -1rem;
+    }
+    .navbar-expand-lg.navbar-light .navbar-nav > .nav-item:first-child {
+        border-left: 1px solid #e7e7e7;
+    }
+}

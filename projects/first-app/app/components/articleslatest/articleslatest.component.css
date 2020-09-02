@@ -1,0 +1,42 @@
+h3 {
+    font-weight: 600;
+}
+.row .row .col-md-6:nth-child(1) {
+    padding-left: 0;
+}
+.row .row .col-md-6:nth-child(2) {
+    padding-right: 0;
+}
+.article-container {
+    background-color: #fff;
+    height:100%;
+    box-shadow: 0 12px 25px 0 #dad4c1;
+    font-size: 1rem;
+    width: 100%;
+}
+.article-container:hover {
+    box-shadow: 0 25px 25px 0 #dad4c1;
+}
+.index-1 {
+    font-size: 0.9rem;
+}
+.index-2,.index-3 {
+    font-size: 0.8rem;
+}
+h2 {
+    font-size:18px;
+    font-weight:bold;
+}
+h2 a {
+    color: #676a6c;
+}
+h2 a:hover {
+    color: #1ab394;
+}
+.readmore {
+    text-decoration: underline;
+    color: #676a6c;
+}
+.readmore:hover {
+    color: #1ab394;
+}

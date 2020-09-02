@@ -1,0 +1,47 @@
+<h3 class="mb-4" i18n>Articles latest</h3>
+
+<div class="row mb-4" *ngIf="!!articles">
+    <div class="col-md-5">
+        <div class="article-container p-4 index-0">
+            <p class="createDate">
+                <span class="badge badge-info">{{ articles[0].createdAt | date }}</span>
+            </p>
+            <h2><a routerLink="/articles/{{articles[0].human_id}}">{{ articles[0].title }}</a></h2>
+            <div [innerHTML]="articles[0].body | striphtml | cutText:140"></div>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <div class="row mb-4">
+            <div class="article-container p-4 index-1">
+                <p class="createDate">
+                    <span class="badge badge-info">{{ articles[1].createdAt | date }}</span>
+                </p>
+                <h2><a routerLink="/articles/{{articles[1].human_id}}">{{ articles[1].title }}</a></h2>
+                <div [innerHTML]="articles[1].body | striphtml | cutText:80"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="article-container p-4 index-2">
+                    <p class="createDate">
+                        <span class="badge badge-info">{{ articles[2].createdAt | date }}</span>
+                    </p>
+                    <h2><a routerLink="/articles/{{articles[2].human_id}}">{{ articles[2].title }}</a></h2>
+                    <div [innerHTML]="articles[2].body | striphtml | cutText:60"></div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="article-container p-4 index-3">
+                    <p class="createDate">
+                        <span class="badge badge-info">{{ articles[3].createdAt | date }}</span>
+                    </p>
+                    <h2><a routerLink="/articles/{{articles[3].human_id}}">{{ articles[3].title }}</a></h2>
+                    <div [innerHTML]="articles[3].body | striphtml | cutText:60"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

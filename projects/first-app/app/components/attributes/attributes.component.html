@@ -1,0 +1,24 @@
+<h1>Attributes</h1>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <th>#</th>
+    <th>Title</th>
+    <th>Type</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let attribute of attributeSegment" >
+      <td>{{ attribute.attr_id }}</td>
+      <td><a routerLink="/administrator/products/attributes/{{ attribute.attr_id }}">{{ attribute.title }}</a></td>
+      <td [ngSwitch]="attribute.type">
+        <span *ngSwitchCase="1">TEXT</span>
+        <span *ngSwitchCase="2">PRODUCT</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<app-pagination
+  *ngIf="paginationParams"
+  [params]="paginationParams"
+  (onChange)="getArticles($event)"
+></app-pagination>

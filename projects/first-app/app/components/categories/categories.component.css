@@ -1,0 +1,22 @@
+h1 {
+    font-weight: 600;
+    font-size: 2rem;
+}
+.category-container {
+    background-color: #fff;
+    height:100%;
+    box-shadow: 0 12px 25px 0 #dad4c1;
+}
+.category-container:hover {
+    box-shadow: 0 25px 25px 0 #dad4c1;
+}
+.category-container p {
+    margin-bottom: 0;
+}
+.title {
+    color: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    display: block;
+}

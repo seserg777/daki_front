@@ -1,0 +1,15 @@
+<h1>Order #{{ order.order_id }}</h1>
+<table class="table table-striped">
+    <tr>
+        <th>Product ID</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Quantity</th>
+    </tr>
+    <tr *ngFor="let product of order.items" >
+        <td><a routerLink="/products/{{ product.product_id }}">{{ product.product_id }}</a></td>
+        <td>{{ product.title }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.quantity }}</td>
+    </tr>
+</table>

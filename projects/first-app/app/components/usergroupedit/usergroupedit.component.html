@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="row">
+        <form class="col-md-12" [formGroup]="editUsergroupForm" (ngSubmit)="onSubmit()">
+            <div class="row d-felx mb-4">
+                <h3>
+                    Edit Usergroup
+                    <span *ngIf="usergroup">: {{usergroup.usergroup_id}}</span>
+                </h3>
+                <button class="btn btn-danger ml-auto" type="button" (click)="remove(usergroup.usergroup_id);">
+                    <fa-icon [icon]="faTrashAlt" class="mr-1"></fa-icon>
+                    Delete
+                </button>
+                <button class="btn btn-success ml-auto" type="submit">
+                    <fa-icon [icon]="faSave" class="mr-1"></fa-icon>
+                    Save
+                </button>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.title.errors }" />
+                    <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                        <div *ngIf="f.title.errors.required">Name is required</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

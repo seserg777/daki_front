@@ -1,0 +1,12 @@
+<div *ngIf="categoryParams.showCategoryDescription == false">
+    <h1>
+        {{ category.title }}
+        <a routerLink="edit">
+            <fa-icon [icon]="faEdit"></fa-icon>
+        </a>
+        <span (click)="remove(category.cid)">
+            <fa-icon [icon]="faTrashAlt"></fa-icon>
+        </span>
+    </h1>
+</div>
+<app-products></app-products>

@@ -174,6 +174,7 @@
       <th>State</th>
       <th>Media</th>
       <th>Category</th>
+      <th></th>
     </thead>
     <tbody>
       <tr *ngFor="let product of productSegment" >
@@ -195,6 +196,12 @@
           <img width="64" *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_full_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_full_image'] }}" alt="{{ product.title }}" />
         </td>
         <td>{{ product.category_title }}</td>
+        <td>
+          <button class="btn btn-danger ml-auto" type="button" (click)="remove(product.product_id);">
+            <fa-icon [icon]="faTrashAlt" class="mr-1"></fa-icon>
+            Delete
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>

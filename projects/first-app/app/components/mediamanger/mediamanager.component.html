@@ -9,7 +9,7 @@
     <tbody>
         <tr *ngFor="let item of list">
             <td>
-                <img *ngIf="item.type === 'product' && !!item.webp_full_image" width="64" src="{{ environment.productImagesPath }}{{ item.webp_full_image }}" />
+                <img *ngIf="item.type === 'product' && !!item.webp_thumb_image" src="{{ environment.productImagesPath }}{{ item.webp_thumb_image }}" />
             </td>
             <td>
                 {{ item.type }}

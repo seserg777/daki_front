@@ -94,15 +94,13 @@ export class CartmoduleComponent implements OnDestroy {
         let index: number = 0;
         for (const i in this.cart) {
             if (this.cart.hasOwnProperty(i)) {
-                if (Number(this.cart[i]['id']) === id) {
+                if (Number(this.cart[i]['product_id']) === id) {
                     index = Number(i);
+                    this.cart.splice(index, 1);
+                    this.reCalc();
                 }
             }
         }
-        if (index) {
-            this.cart.splice(index, 1);
-        }
-        this.reCalc();
     }
 
     public reCalc(): void {

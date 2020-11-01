@@ -82,6 +82,7 @@ export class ProductsComponent implements OnDestroy, OnInit  {
   private wishlistSubscription: Subscription;
   private wishlistStateSubscription: Subscription;
   private typeSubscription: Subscription;
+  private productRemoveSubscribe: Subscription;
   private ids: string[] = [];
   private wishlist: string[] = [];
   private filterSubscription: Subscription;
@@ -416,6 +417,26 @@ export class ProductsComponent implements OnDestroy, OnInit  {
     this.getItems();
   }
 
+  public remove(id: number) {
+    if (!!this.productRemoveSubscribe) {
+      this.productRemoveSubscribe.unsubscribe();
+    }
+    this.productRemoveSubscribe = this.productService.remove(id.toString())
+    .subscribe(
+        (r: KeyValueInterface<any>): void => {
+            console.log(r);
+            this.getItemsCount();
+            this.getItems();
+            if (!!this.productRemoveSubscribe) {
+              this.productRemoveSubscribe.unsubscribe();
+            }
+        },
+        (error: HttpErrorResponse): void => {
+            console.error(error);
+        }
+    );
+  }
+
   public ngOnDestroy () {
     if (!!this.subscription) {
       this.subscription.unsubscribe();
@@ -446,6 +467,9 @@ export class ProductsComponent implements OnDestroy, OnInit  {
     }
     if (!!this.typeSubscription) {
       this.typeSubscription.unsubscribe();
+    }
+    if (!!this.productRemoveSubscribe) {
+      this.productRemoveSubscribe.unsubscribe();
     }
   }
 }

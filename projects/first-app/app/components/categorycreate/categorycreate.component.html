@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <label>Parent *</label>
                     <select formControlName="parent" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.parent.errors }" >
-                        <option value="root">Root</option>
+                        <option value="0">Root</option>
                         <option *ngFor="let category of categories" value="{{ category._id }}">{{ category.title }}</option>
                     </select>
                     <div *ngIf="submitted && f.parent.errors" class="invalid-feedback">

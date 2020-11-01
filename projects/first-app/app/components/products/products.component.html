@@ -163,7 +163,10 @@
 </div>
 
 <div class="products-administrator-container" *ngIf="type == 'administrator'">
-  <h1 class="mb-4">Products</h1>
+  <div class="d-flex">
+    <h1 class="mb-4">Products</h1>
+    <input class="form-control mr-sm-2 rounded-pill ml-4" type="search" i18n-placeholder placeholder="Search" aria-label="Search" (keyup)="searchByTitle($event)" />
+  </div>
   <table *ngIf="!!productSegment && productSegment.length" class="table table-striped">
     <thead class="thead-dark">
       <th>ID</th>

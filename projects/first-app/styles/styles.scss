@@ -1,0 +1,12 @@
+:root {
+    --red: #f61b29;
+    --grey: #808080;
+}
+.btn-danger {
+    background-color: var(--red);
+}
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~font-awesome/css/font-awesome.css";
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,400i,500,600,700&display=swap&subset=cyrillic');
+@import './../assets/fonts/fonts-arnopro.css';
+@import './common.css';

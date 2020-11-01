@@ -76,6 +76,14 @@ export class CartService {
             }
         }
 
+        const cartmodule: HTMLElement | null = document.querySelector('#offcanvas-cart');
+        if ( !!cartmodule ) {
+        cartmodule.classList.add('show');
+        setTimeout(() => {
+            cartmodule.classList.remove('show');
+        }, 3000);
+        }
+
         /*console.log(product);
         console.log(this.cart);*/
     }

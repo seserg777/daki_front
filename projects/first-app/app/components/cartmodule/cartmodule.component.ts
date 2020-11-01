@@ -9,6 +9,8 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { AuthenticationService } from '../../../common/services/authentication.service';
 import { UserModel } from '../../../common/models/user.model';
 import { Subscription } from 'rxjs';
+import { faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-cartmodule',
@@ -16,6 +18,7 @@ import { Subscription } from 'rxjs';
     templateUrl: 'cartmodule.component.html'
 })
 export class CartmoduleComponent implements OnDestroy {
+    public environment: KeyValueInterface<any> = environment;
     public submitted: boolean = false;
     public cart: CartproductModel[] = [];
     public quantity: number = 0;
@@ -25,6 +28,7 @@ export class CartmoduleComponent implements OnDestroy {
     public quickCart: FormGroup;
     public isLoggedIn: boolean;
     public user: UserModel;
+    public faShoppingBasket = faShoppingBasket;
 
     private checkoutSubscribe: Subscription;
     private cartSubscribe: Subscription;
@@ -47,6 +51,7 @@ export class CartmoduleComponent implements OnDestroy {
         this.auth.getStateSubscription().subscribe(
             (user: UserModel): void => {
                 this.user = user;
+                /*console.log(this.user);*/
             }
         );
 

@@ -1,13 +1,13 @@
 <button type="button" (click)="toggleOffcanasCart()" class="navbar-btn" href="#offcanvas-cart" data-toggle="offcanvas">
     <span class="d-block position-relative cart-module-container">
-        <span class="navbar-btn-badge text-light">{{ quantity }}</span>
-        <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M13.5 21c-.276 0-.5-.224-.5-.5s.224-.5.5-.5.5.224.5.5-.224.5-.5.5m0-2c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5m-6 2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5.5.224.5.5-.224.5-.5.5m0-2c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5m16.5-16h-2.964l-3.642 15h-13.321l-4.073-13.003h19.522l.728-2.997h3.75v1zm-22.581 2.997l3.393 11.003h11.794l2.674-11.003h-17.861z"/></svg>
-        <span class="d-block">${{ total }}</span>
+        <span class="quantity-badge">{{ quantity }}</span>
+        <fa-icon [icon]="faShoppingBasket" class="mr-1"></fa-icon>
+        <span class="d-block" *ngIf="!!total && total !== 0">{{ total | currency:'UAH':'symbol':'1.0' }}</span>
     </span>
 </button>
 <div class="offcanvas offcanvas-reverse" id="offcanvas-cart">
     <div class="offcanvas-header d-flex justify-content-between align-items-center">
-        <h3 class="offcanvas-title">Your cart</h3>
+        <h3 class="offcanvas-title">Ваша корзина</h3>
         <button class="close" type="button" (click)="toggleOffcanasCart()" data-dismiss="offcanvas" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
     <div class="offcanvas-body">
@@ -15,15 +15,14 @@
             <div *ngIf="cart.length" class="text-right">
                 <button type="button" class="text-danger btn-sm pr-0 clear-cart" (click)="clearCart()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x mr-1" style="width: .85rem; height: .85rem;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    Clear cart
+                    Очистить
                 </button>
             </div>
             <div class="widget widget-featured-entries pt-3">
                 <div *ngFor="let product of cart" class="media">
                     <div class="featured-entry-thumb mr-3">
-                        <a href="#">
-                            <!--<img *ngIf="!product.main_image" src="http://lorempixel.com/250/200/technics/{{ product.product_id }}" alt="{{ product.title }}" width="64" />-->
-                            <img *ngIf="product.main_image" src="http://deps.ua//components/com_jshopping/files/img_products/thumb_{{  product.main_image }}" alt="{{ product.title }}" width="64" />
+                        <a routerLink="/products/{{product.product_id}}">
+                            <img *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_full_image']" width="64" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_full_image'] }}" alt="{{ product.title }}" />
                         </a>
                         <span class="item-remove-btn" (click)="removeFromCart(product.id)">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -31,7 +30,7 @@
                     </div>
                     <div class="media-body">
                         <h6 class="featured-entry-title">
-                            <a href="/products/{{ product.id }}">{{ product.title }}</a>
+                            <a routerLink="/products/{{product.product_id}}">{{ product.title }}</a>
                         </h6>
                         <p *ngFor="let attr of product.attrSelected">
                             {{ attr.title }}: {{ attr.value }}
@@ -39,15 +38,15 @@
                         <p class="featured-entry-meta">
                             {{ product.quantity }}
                             <span class="text-muted">x</span>
-                            {{ product.price | currency:'UAH' }}
+                            {{ product.price | currency:'UAH':'symbol':'1.0' }}
                         </p>
                     </div>
                 </div>
                 <div *ngIf="cart.length" class="hr"></div>
                 <div *ngIf="cart.length" class="d-flex justify-content-between align-items-center py-3">
                     <div class="font-size-sm">
-                        <span class="mr-2">Subtotal:</span>
-                        <span class="font-weight-semibold text-dark">{{ total | currency:'UAH' }}</span>
+                        <span class="mr-2">Итого:</span>
+                        <span class="font-weight-semibold text-dark">{{ total | currency:'UAH':'symbol':'1.0' }}</span>
                     </div>
                     <!--<a class="btn btn-outline-secondary btn-sm" href="/cart">
                         Expand cart
@@ -55,7 +54,7 @@
                     </a>-->
                 </div>
 
-                <p class="alert" *ngIf="cart.length === 0">Your cart is empty</p>
+                <p class="alert" *ngIf="cart.length === 0">Ваша корзина пуста</p>
 
                 <form [formGroup]="quickCart" (ngSubmit)="onSubmit()" *ngIf="cart.length">
                     <div class="form-group">
@@ -68,13 +67,13 @@
                             [class.d-none] = "isLoggedIn"
                         />
                         <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                            <div *ngIf="f.email.errors.required">Email is required</div>
+                            <div *ngIf="f.email.errors.required">E-mail неправильный</div>
                         </div>
                     </div>
 
-                    <button *ngIf="cart.length" type="button" type="submit" class="btn btn-primary btn-sm btn-block">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card mr-1"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-                        Checkout
+                    <button *ngIf="cart.length" type="button" type="submit" class="btn btn-success btn-sm btn-block">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card mr-1"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                        Заказать
                     </button>
                 </form>
             </div>
@@ -89,19 +88,19 @@
         
         <!-- Modal Header -->
         <div class="modal-header">
-            <h4 class="modal-title">Thank for your order!</h4>
+            <h4 class="modal-title">Спасибо за ваш заказ!</h4>
             <button type="button" class="close" data-dismiss="modal" (click) = "HideModal()">&times;</button>
         </div>
         
         <!-- Modal body -->
         <div class="modal-body">
-            <p>Your order Id : {{ order.order_id }}</p>
-            <p>Summ : {{ order.summ | currency:'UAH' }}</p>
+            <p>Ваш заказ #{{ order.order_id }}</p>
+            <p>Сумма : {{ order.summ | currency:'UAH':'symbol':'1.0' }}</p>
         </div>
         
         <!-- Modal footer -->
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "HideModal()">Close</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "HideModal()">Закрыть</button>
         </div>
         
         </div>

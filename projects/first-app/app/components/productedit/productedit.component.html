@@ -8,10 +8,22 @@
                         : <a routerLink="/products/{{product.product_id}}">{{ product.title }}</a>
                     </span>
                 </h3>
+                
+                <a class="btn btn-dark ml-auto" [routerLink]="'/administrator/products'">
+                    <fa-icon [icon]="faTimesCircle" class="mr-1"></fa-icon>
+                    Close
+                </a>
+
+                <a class="btn btn-primary ml-auto" [routerLink]="'/administrator/products/create'">
+                    <fa-icon [icon]="faPlusCircle" class="mr-1"></fa-icon>
+                    Create new
+                </a>
+
                 <button class="btn btn-danger ml-auto" type="button" (click)="remove(product.product_id);">
                     <fa-icon [icon]="faTrashAlt" class="mr-1"></fa-icon>
                     Delete
                 </button>
+
                 <button class="btn btn-success ml-auto" type="submit">
                     <fa-icon [icon]="faSave" class="mr-1"></fa-icon>
                     Save
@@ -58,7 +70,7 @@
                             <option [attr.selected]="product.state == 0" value="0">Unpublish</option>
                         </select>
                         <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
-                            <div *ngIf="f.category_id.errors.required">State is required</div>
+                            <div *ngIf="f.state.errors.required">State is required</div>
                         </div>
                     </div>
 
@@ -106,7 +118,7 @@
                 <div class="tab-pane fade show pt-1" [class.active] = "activeTab == 'media'" id="media" role="tabpanel" aria-labelledby="description-tab">
                     <div class="images d-flex" *ngIf="product.media">
                         <div *ngFor="let media of product.media" class="image-container p-2 ml-2 mr-2 mb-2" >
-                            <span class="badge badge-pill badge-danger remove-media" (click)="removeMedia();">
+                            <span class="badge badge-pill badge-danger remove-media" (click)="removeMedia(media.id);">
                                 <fa-icon [icon]="faTrashAlt"></fa-icon>
                             </span>
                             <div class="mb-1">

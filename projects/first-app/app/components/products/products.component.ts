@@ -52,6 +52,7 @@ export class ProductsComponent implements OnDestroy, OnInit  {
     }
   }
 
+  public search: string;
   public type: string = 'front';
   public quckProduct: ProductModel | null;
   public filterParams: KeyValueInterface<any>;
@@ -160,7 +161,8 @@ export class ProductsComponent implements OnDestroy, OnInit  {
       this.varsManufacturers,
       this.cid,
       this.ids,
-      this.state
+      this.state,
+      this.search
     ).subscribe((products: ProductModel[]): void => {
       this.productSegment = products;
       this.productService.next(products, this.paginationParams);
@@ -182,7 +184,8 @@ export class ProductsComponent implements OnDestroy, OnInit  {
       this.varsManufacturers,
       this.cid,
       this.ids,
-      this.state
+      this.state,
+      this.search
     ).subscribe((count: number): void => {
       this.paginationParams = { ... {
         total: count,
@@ -405,6 +408,12 @@ export class ProductsComponent implements OnDestroy, OnInit  {
             }
         }
     }
+  }
+
+  public searchByTitle(event: HTMLInputEvent ): void {
+    this.search = event.target.value;
+    this.getItemsCount();
+    this.getItems();
   }
 
   public ngOnDestroy () {

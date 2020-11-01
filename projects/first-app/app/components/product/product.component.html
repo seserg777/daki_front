@@ -1,122 +1,165 @@
-<div class="row mb-4">
-    <div class="col-md-5">
-        <img *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_full_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_full_image'] }}" alt="{{ product.title }}" />
-    
-        <div class="horizontal-container mt-2">
-            <div class="vertical-container">
-                <div class="content-container">
+<div class="component-container">
+    <div class="row mb-4 pb-4" *ngIf="mobile === true">
+        <div class="col-md-12">
+            <swiper *ngIf="type == 'component' && show" class="swiper-container" [config]="config" [disabled]="disabled">
+                <div *ngFor="let slide of slides" class="swiper-slide" [innerHTML]="slide | safeHtml"></div>
+            </swiper>
+
+            <div *ngIf="type == 'directive' && show" class="swiper-container" [disabled]="disabled" [swiper]="config" (swiperClick)="swClick($event)">
+                <div class="swiper-wrapper">
+                    <div *ngFor="let slide of slides" class="swiper-slide" [innerHTML]="slide | safeHtml"></div>
+                </div>
+
+                <div class="swiper-scrollbar" [hidden]="config.scrollbar === false"></div>
+                <div class="swiper-pagination" [hidden]="config.pagination === false"></div>
+
+                <div class="swiper-button-prev" [hidden]="config.navigation === false"></div>
+                <div class="swiper-button-next" [hidden]="config.navigation === false"></div>
+            </div>
+
+            <h1 class="page-title mb-3 mt-4 font-weight-bold">
+                {{ product.title }}
+                <a *ngIf="isLoggedIn" class="actions pl-2 pr-2" routerLink="/administrator/products/{{ product.product_id }}/edit">
+                    <fa-icon [icon]="faEdit"></fa-icon>
+                </a>
+                <span *ngIf="isLoggedIn" class="actions pl-2 pr-2" (click)="remove(product.product_id)">
+                    <fa-icon [icon]="faTrashAlt"></fa-icon>
+                </span>
+            </h1>
+            
+            <div class="price" *ngIf="!product.price_calculated">{{ product.price | currency:'UAH':'symbol':'1.0' }}</div>
+            <div class="price_calculated" *ngIf="!!product.price_calculated">{{ product.price_calculated | currency:'UAH':'symbol':'1.0' }}</div>
+
+            <div class="attributes mt-4">
+                <div *ngFor="let attributes of product.attributesSorted;">
+                    <ul class="attribute-list d-flex" [class.attribute-colors-list]="!!attributes[0].color || !!attributes[0].image" *ngIf="!!attributes" >
+                        <li *ngFor="let attribute of attributes" value="{{ attribute.attr_value_id }}" class="mr-2 attr-group-{{ i }}">
+                            <span *ngIf="!!attribute.value" class="value" [attr.data-index]="i" (click)="changeAttribute($event);" [attr.data-attr-value-id]="attribute.attr_value_id">{{ attribute.value }}</span>
+                            <span *ngIf="!!attribute.image" class="color" [attr.data-index]="i" [ngStyle]="getAttImgPath(attribute.image)" (click)="changeAttribute($event);" [attr.data-attr-value-id]="attribute.attr_value_id"></span>
+                            <span *ngIf="!!attribute.color && !attribute.image" class="color" [attr.data-index]="i" [ngStyle]="{ 'background-color': attribute.color }" (click)="changeAttribute($event);" [attr.data-attr-value-id]="attribute.attr_value_id"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap align-items-center pt-1 mt-4">
+                <!--<div>
+                    <input class="px-2 form-control mr-2" type="number" name="quantity" style="width: 3.2rem;" value="1" required="">
+                </div>-->
+                <!--<div>-->
+                    <button class="btn btn-danger px-5 mr-2 d-flex align-items-center" type="button" (click)="addToCart(product)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M13.299 3.74c-.207-.206-.299-.461-.299-.711 0-.524.407-1.029 1.02-1.029.262 0 .522.1.721.298l3.783 3.783c-.771.117-1.5.363-2.158.726l-3.067-3.067zm3.92 14.84l-.571 1.42h-9.296l-3.597-8.961-.016-.039h9.441c.171-.721.459-1.395.848-2h-14.028v2h.643c.535 0 1.021.304 1.256.784l4.101 10.216h12l1.21-3.015c-.698-.03-1.367-.171-1.991-.405zm-6.518-14.84c.207-.206.299-.461.299-.711 0-.524-.407-1.029-1.02-1.029-.261 0-.522.1-.72.298l-4.701 4.702h2.883l3.259-3.26zm8.799 4.26c-2.484 0-4.5 2.015-4.5 4.5s2.016 4.5 4.5 4.5c2.482 0 4.5-2.015 4.5-4.5s-2.018-4.5-4.5-4.5zm2.5 5h-2v2h-1v-2h-2v-1h2v-2h1v2h2v1z"/></svg>
+                        Выбрать
+                    </button>
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4 pb-4" *ngIf="mobile === false">
+        <div class="col-md-5">
+            <div class="row images-container">
+                <div class="col-md-3">
                     <swiper *ngIf="type == 'component' && show" class="swiper-container" [config]="config" [disabled]="disabled">
-                        <div *ngFor="let slide of slides" class="swiper-slide">
-                            <div [innerHTML]="slide | safeHtml" class="p-2"></div>
-                        </div>
+                        <div *ngFor="let slide of slides" class="swiper-slide" [innerHTML]="slide | safeHtml"></div>
                     </swiper>
-    
-                    <div *ngIf="type == 'directive' && show" class="swiper-container" [disabled]="disabled" [swiper]="config">
+
+                    <div *ngIf="type == 'directive' && show" class="swiper-container" [disabled]="disabled" [swiper]="config" (swiperClick)="swClick($event)">
                         <div class="swiper-wrapper">
-                            <div *ngFor="let slide of slides" class="swiper-slide">
-                                <div [innerHTML]="slide | safeHtml"></div>
-                            </div>
+                            <div *ngFor="let slide of slides" class="swiper-slide" [innerHTML]="slide | safeHtml"></div>
                         </div>
-    
+
                         <div class="swiper-scrollbar" [hidden]="config.scrollbar === false"></div>
                         <div class="swiper-pagination" [hidden]="config.pagination === false"></div>
-    
+
                         <div class="swiper-button-prev" [hidden]="config.navigation === false"></div>
                         <div class="swiper-button-next" [hidden]="config.navigation === false"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-            
-    <div class="col-md-7 pt-4 pt-lg-0">
-        <h1 class="page-title pt-1 mb-4">
-            {{ product.title }}
-            <a *ngIf="isLoggedIn" class="actions pl-2 pr-2" routerLink="/administrator/products/{{ product.product_id }}/edit">
-                <fa-icon [icon]="faEdit"></fa-icon>
-            </a>
-            <span *ngIf="isLoggedIn" class="actions pl-2 pr-2" (click)="remove(product.product_id)">
-                <fa-icon [icon]="faTrashAlt"></fa-icon>
-            </span>
-        </h1>
-
-        <div class="attributes">
-            <div *ngFor="let attributes of product.attributesSorted;">
-                <select class="form-control w-50 mb-4" *ngIf="!!attributes && !attributes[0].color " (change)="changeAttribute($event)" >
-                    <option>Choose option...</option>
-                    <option *ngFor="let attribute of attributes" value="{{ attribute.attr_value_id }}">
-                        <span *ngIf="!!attribute.value" class="value">{{ attribute.value }}</span>
-                        <span *ngIf="!!attribute.color" class="value">{{ attribute.color }}</span>
-                    </option>
-                </select>
-
-                <ul class="attribute-colors-list d-flex" *ngIf="!!attributes && !!attributes[0].color " >
-                    <li *ngFor="let attribute of attributes" value="{{ attribute.attr_value_id }}" class="mr-2">
-                        <span *ngIf="!!attribute.value" class="value">{{ attribute.value }}</span>
-                        <span *ngIf="!!attribute.color" class="color" [ngStyle]="{ 'background-color': attribute.color }" (click)="changeAttribute($event);" [attr.data-attr-value-id]="attribute.attr_value_id" ></span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="manufactuer_code" *ngIf="product.manufacturer_code">Manufacturer code: {{ product.manufacturer_code }}</div>
-        <div class="product_ean" *ngIf="product.product_ean">Ean: {{ product.product_ean }}</div>
-        <div class="product_quantity" *ngIf="product.product_quantity">In stock: {{ product.product_quantity }}</div>
-        <div class="price h1 text-primary font-weight-light pt-3 pb-2" *ngIf="!product.price_calculated">{{ product.price | currency:'UAH' }}</div>
-        <div class="price_calculated h1 text-primary font-weight-light pt-3 pb-2" *ngIf="!!product.price_calculated">{{ product.price_calculated | currency:'UAH' }}</div>
-        <div class="manufactuer" *ngIf="product.manufacturer_id">
-            Manufacturer: <a routerLink="/manufacturers/{{ product.manufacturer_id }}">{{ product.manufacturer_title }}</a>
-        </div>
-        <div class="category" *ngIf="product.category_id">
-            Category: <a routerLink="/categories/{{ product.category_id }}">{{ product.category_title }}</a>
-        </div>
-        <div class="d-flex flex-wrap align-items-center pt-1 mt-2">
-            <div>
-                <input class="px-2 form-control mr-2" type="number" name="quantity" style="width: 3.2rem;" value="1" required="">
-            </div>
-            <div>
-                <button class="btn btn-primary px-5 mr-2" type="button" (click)="addToCart(product)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart mr-2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                    Add to cart
-                </button>
-            </div>
-            <a class="btn box-shadow-0 nav-link-inline my-2" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart align-middle mr-1" style="width: 1.1rem; height: 1.1rem;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                Add to wishlist
-            </a>
-        </div>
-    </div>
-</div>
-
-<h3>Product description</h3>
-<div class="description" [innerHTML]="product.description"></div>
-
-<div class="childs mt-4" *ngIf="!!product.child && product.child.length !== 0">
-    <h3>Child products</h3>
-    <div class="row">
-        <div
-          class="col-md-3 py-4"
-          *ngFor="let product of product.child"
-        >
-          <div class="product-container">
-            <span class="wishlist" [class.active]="product.wishlist === true" (click)="addWishlist(product, $event)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z"/></svg>
-            </span>
-            <div class="media-container pl-4 pr-4 pt-4 pb-4 d-flex justify-content-center align-items-center">
-                <img *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_full_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_full_image'] }}" alt="{{ product.title }}" />
-            </div>
-            <div class="product-desc pl-4 pr-4 pb-4">
-              <h2 class="product-name text-center"><a routerLink="/products/{{product.product_id}}">{{ product.title }}</a></h2>
-              <p class="product-price text-center">{{ product.price | currency:'UAH' }}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="state">
-                  <span *ngIf="product.product_quantity > 0" class="badge badge-dark badge-pill">in stock</span>
-                  <span *ngIf="product.product_quantity <= 0" class="badge badge-light badge-pill">not avaliable</span>
+                <div class="col-md-9">
+                    <img (click)="openModalImg($event)" *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_full_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_full_image'] }}" alt="{{ product.title }}" />
                 </div>
-                <button type="button" class="add-to-cart-btn" (click)="addToCart(product)">+</button>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
+                
+        <div class="col-md-7 pt-4 pt-lg-0">
+            <h1 class="page-title mb-3 font-weight-bold">
+                {{ product.title }}
+                <a *ngIf="isLoggedIn" class="actions pl-2 pr-2" routerLink="/administrator/products/{{ product.product_id }}/edit">
+                    <fa-icon [icon]="faEdit"></fa-icon>
+                </a>
+                <span *ngIf="isLoggedIn" class="actions pl-2 pr-2" (click)="remove(product.product_id)">
+                    <fa-icon [icon]="faTrashAlt"></fa-icon>
+                </span>
+            </h1>
+            
+            <div class="price" *ngIf="!product.price_calculated">{{ product.price | currency:'UAH':'symbol':'1.0' }}</div>
+            <div class="price_calculated" *ngIf="!!product.price_calculated">{{ product.price_calculated | currency:'UAH':'symbol':'1.0' }}</div>
+
+            <div class="attributes mt-4">
+                <div *ngFor="let attributes of product.attributesSorted;">
+                    <ul class="attribute-list d-flex" [class.attribute-colors-list]="!!attributes[0].color || !!attributes[0].image" *ngIf="!!attributes" >
+                        <li *ngFor="let attribute of attributes" value="{{ attribute.attr_value_id }}" class="mr-2 attr-group-{{ i }}">
+                            <span *ngIf="!!attribute.value" class="value" [attr.data-index]="i" (click)="changeAttribute($event);" [attr.data-attr-value-id]="attribute.attr_value_id">{{ attribute.value }}</span>
+                            <span *ngIf="!!attribute.image" class="color" [attr.data-index]="i" [ngStyle]="getAttImgPath(attribute.image)" (click)="changeAttribute($event);" [attr.data-attr-value-id]="attribute.attr_value_id"></span>
+                            <span *ngIf="!!attribute.color && !attribute.image" class="color" [attr.data-index]="i" [ngStyle]="{ 'background-color': attribute.color }" (click)="changeAttribute($event);" [attr.data-attr-value-id]="attribute.attr_value_id"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap align-items-center pt-1 mt-4">
+                <!--<div>
+                    <input class="px-2 form-control mr-2" type="number" name="quantity" style="width: 3.2rem;" value="1" required="">
+                </div>-->
+                <!--<div>-->
+                    <button class="btn btn-danger px-5 mr-2 d-flex align-items-center" type="button" (click)="addToCart(product)">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M13.299 3.74c-.207-.206-.299-.461-.299-.711 0-.524.407-1.029 1.02-1.029.262 0 .522.1.721.298l3.783 3.783c-.771.117-1.5.363-2.158.726l-3.067-3.067zm3.92 14.84l-.571 1.42h-9.296l-3.597-8.961-.016-.039h9.441c.171-.721.459-1.395.848-2h-14.028v2h.643c.535 0 1.021.304 1.256.784l4.101 10.216h12l1.21-3.015c-.698-.03-1.367-.171-1.991-.405zm-6.518-14.84c.207-.206.299-.461.299-.711 0-.524-.407-1.029-1.02-1.029-.261 0-.522.1-.72.298l-4.701 4.702h2.883l3.259-3.26zm8.799 4.26c-2.484 0-4.5 2.015-4.5 4.5s2.016 4.5 4.5 4.5c2.482 0 4.5-2.015 4.5-4.5s-2.018-4.5-4.5-4.5zm2.5 5h-2v2h-1v-2h-2v-1h2v-2h1v2h2v1z"/></svg>
+                        Выбрать
+                    </button>
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4" *ngIf="!!product.description">
+        <div class="col-md-12">
+            <h3 class="mt-4">Описание</h3>
+            <div class="description" [innerHTML]="product.description"></div>
+        </div>
+    </div>
+
+    <div class="childs mt-4 pt-4" *ngIf="!!product.child && product.child.length !== 0">
+        <h3>Child products</h3>
+        <div class="row">
+            <div
+            class="col-md-3 py-4"
+            *ngFor="let product of product.child"
+            >
+            <div class="product-container">
+                <span class="wishlist" [class.active]="product.wishlist === true" (click)="addWishlist(product, $event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z"/></svg>
+                </span>
+                <div class="media-container pl-4 pr-4 pt-4 pb-4 d-flex justify-content-center align-items-center">
+                    <img *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_full_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_full_image'] }}" alt="{{ product.title }}" />
+                </div>
+                <div class="product-desc pl-4 pr-4 pb-4">
+                <h2 class="product-name text-center"><a routerLink="/products/{{product.product_id}}">{{ product.title }}</a></h2>
+                <p class="product-price text-center">{{ product.price | currency:'UAH' }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="state">
+                    <span *ngIf="product.product_quantity > 0" class="badge badge-dark badge-pill">in stock</span>
+                    <span *ngIf="product.product_quantity <= 0" class="badge badge-light badge-pill">not avaliable</span>
+                    </div>
+                    <button type="button" class="add-to-cart-btn" (click)="addToCart(product)">+</button>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<ng-template #template let-modal>
+    <img src="{{ popupContent.src }}" />
+</ng-template>

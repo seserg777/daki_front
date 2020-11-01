@@ -18,7 +18,7 @@ import { AttributeModel } from '../../../common/models/attribute.model';
 import { AttributeService } from '../../../common/services/attribute.service';
 import { AttributevalueService } from '../../../common/services/attributevalue.service';
 import { AttributevalueModel } from '../../../common/models/attributevalue.model';
-import { faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faSave, faTimesCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -33,6 +33,8 @@ export class ProducteditComponent implements OnDestroy {
     public environment: KeyValueInterface<any> = environment;
     public faTrashAlt = faTrashAlt;
     public faSave = faSave;
+    public faTimesCircle = faTimesCircle;
+    public faPlusCircle = faPlusCircle;
     public product: ProductModel = new ProductModel;
     public manufacturers: ManufacturerModel[] = [];
     public attributes: AttributeModel[] = [];
@@ -231,6 +233,8 @@ export class ProducteditComponent implements OnDestroy {
           return;
         }
 
+        this.formData = new FormData();
+
         switch (type) {
             case 'image': {
                 this.formData.append(`files[${type}][${id}]`, event.target.files[0]);
@@ -254,6 +258,7 @@ export class ProducteditComponent implements OnDestroy {
             (event: Event): void => this.onFileChangeHandler('image', event as HTMLInputEvent, this.product.product_id)
         );
         input.click();
+        input.remove();
     }
 
     public attrValueFileInput(e: HTMLInputEvent, attr_value_id: number): void {
@@ -265,6 +270,7 @@ export class ProducteditComponent implements OnDestroy {
             (event: Event): void => this.onFileChangeHandler('attr_value_image', event as HTMLInputEvent, attr_value_id)
         );
         input.click();
+        input.remove();
     }
 
     public getAttributeValues(product_id: string): void {
@@ -311,8 +317,8 @@ export class ProducteditComponent implements OnDestroy {
         this.editProductForm.controls['attributes'].setValue(JSON.stringify(this.attributesRows));
     }
 
-    public removeMedia(): void {
-        console.log('removeMedia');
+    public removeMedia(media_id: string): void {
+        console.log('removeMedia', media_id);
     }
 
     public searchChild(event: HTMLInputEvent): void {

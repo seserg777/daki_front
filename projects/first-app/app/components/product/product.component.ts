@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild  } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductModel } from '../../../common/models/product.model';
 import { ProductService } from '../../../common/services/product.service';
@@ -14,17 +14,22 @@ import { ClonerService } from '../../../common/services/cloner.service';
 import { environment } from '../../../environments/environment';
 import { SwiperComponent, SwiperDirective, SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { SEOService } from '../../../common/services/seo.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-product',
     templateUrl: 'product.component.html',
-    styleUrls: ['product.component.css']
+    styleUrls: ['product.component.scss']
 })
-export class ProductComponent implements OnDestroy {
+export class ProductComponent implements OnDestroy, OnInit {
     @ViewChild( SwiperComponent, { read: false } ) public componentRef?: SwiperComponent;
 
     @ViewChild( SwiperDirective, { read: false } ) public directiveRef?: SwiperDirective;
 
+    @ViewChild('template') public template: ElementRef;
+
+    public mobile: boolean = false;
+    public closeResult: string = '';
     public product_id: string;
     public product: ProductModel = new ProductModel;
     public productClone: ProductModel = new ProductModel;
@@ -35,25 +40,41 @@ export class ProductComponent implements OnDestroy {
     public attributesSorted: AttributevalueModel[][] = [];
     public attrSelected: AttributevalueModel[] = [];
     public environment: KeyValueInterface<any> = environment;
-
+    public popupContent: any;
     public show: boolean = true;
-
-    public type: string = 'component';
-
+    public type: string = 'directive';
     public disabled: boolean = false;
-
     public slides: string[] = [];
 
     public config: SwiperConfigInterface = {
         a11y: true,
-        direction: 'horizontal',
-        slidesPerView: 4,
+        direction: 'vertical',
+        slidesPerView: 3,
+        spaceBetween: 20,
         keyboard: true,
         mousewheel: true,
         scrollbar: false,
         navigation: true,
         pagination: false,
-        loop: false
+        speed: 1000,
+        loop: true,
+        centeredSlides: true,
+        autoplay: false,
+        initialSlide: 1,
+        breakpoints: {
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 0
+            },
+            480: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            }
+        }
     };
 
     private productSubscribe: Subscription;
@@ -67,9 +88,15 @@ export class ProductComponent implements OnDestroy {
         private cartService: CartService,
         private clonerService: ClonerService,
         private seoService: SEOService,
+        private modalService: NgbModal,
+        private elRef: ElementRef
     ) {
-        console.log('constructor');
-        /*this.getItem();*/
+        if (window.screen.width < 980) {
+            this.mobile = true;
+            this.config.direction = 'horizontal';
+            this.config.autoplay = true;
+        }
+
         this.isLoggedIn = this.auth.isLogged();
 
         this.route.params.subscribe(() => {
@@ -77,20 +104,59 @@ export class ProductComponent implements OnDestroy {
         });
     }
 
+    public ngOnInit(): void {
+        if (this.mobile === true) {
+            this.type = 'component';
+            const container: HTMLElement | null = this.elRef.nativeElement.querySelector('.component-container');
+            if ( !!container ) {
+                container.classList.add('mobile');
+            }
+        }
+    }
+
+    public openModalImg(event: HTMLInputEvent): void {
+        this.popupContent = event.target;
+        this.modalService.open(
+            this.template,
+            { size: 'lg' }
+        );
+    }
+
+    public swClick(event: HTMLInputEvent): void {
+        const src: string = event.target.dataset.full ? event.target.dataset.full : '';
+        if (!!src) {
+            const image = document.querySelector('.product-main-image') as HTMLImageElement;
+            if ( !!image ) {
+                image.src = src;
+            }
+        }
+    }
+
     public changeAttribute(event: HTMLInputEvent): void {
-        /*console.log('changeAttribute', event.target.dataset.attrValueId);*/
+        /*console.log('changeAttribute', event.target.dataset.index, event.target.parentNode);*/
+        const parent: HTMLElement | null = event.target.parentNode as HTMLElement;
+        const index: string = event.target.dataset.index ? event.target.dataset.index : '';
         const attrIdSelected: number = event.target.value ? Number(event.target.value) : Number(event.target.dataset.attrValueId);
-        console.log(attrIdSelected);
+
+        if (!!index) {
+            const siblings = document.getElementsByClassName(`attr-group-${index}`);
+            for (let i: number = 0; i < siblings.length; i++) {
+                siblings[i].classList.remove('active');
+            }
+        }
+        if (!!parent) {
+            parent.classList.add('active');
+        }
+
+        //console.log(attrIdSelected);
         for (const i of Object.keys(this.product.attributesSorted)) {
             for (const j of Object.keys(this.product.attributesSorted[i])) {
                 if (this.product.attributesSorted[i][j]['attr_value_id'] === attrIdSelected) {
                     const selected: AttributevalueModel = this.product.attributesSorted[i][j];
-                    console.log(selected);
-
+                    /*console.log(selected);*/
                     if (!!selected) {
                         if (!!selected.child_product_id) {
-                            this.product_id = selected.child_product_id;
-                            this.getItem();
+                            this.router.navigate([`/products/${selected.child_product_id}`]);
                         } else {
                             this.product.price_calculated = this.productService.priceCalculate(this.productClone, selected);
 
@@ -119,11 +185,12 @@ export class ProductComponent implements OnDestroy {
     }
 
     public getItem() {
+        /*console.log('getItem');*/
         const routeParam: string | null = this.product_id ? this.product_id.toString() : this.route.snapshot.paramMap.get('id');
         if (typeof routeParam === 'string') {
             this.productSubscribe = this.productService.getProduct(routeParam).subscribe(
                 (product: ProductModel): void => {
-                    console.log(product);
+                    /*console.log(product);*/
                     this.product = product;
                     this.productClone = this.clonerService.deepClone(this.product);
 
@@ -137,14 +204,13 @@ export class ProductComponent implements OnDestroy {
                         this.seoService.updateDescription(`${this.product.meta_description}`);
                     }
 
+                    this.slides = [];
                     if (Object.keys(this.product.media).length > 1) {
                         for (const j of Object.keys(this.product.media)) {
                             if (!!this.product.media[j]['webp_full_image']) {
-                                this.slides.push(`<img rel="preload" as="image" class="slide-img" src="${this.environment.productImagesPath + this.product.media[j]['webp_full_image']}" />`);
+                                this.slides.push(`<img rel="preload" as="image" (click)="openModalImg($event)" class="slide-img" src="${this.environment.productImagesPath + this.product.media[j]['webp_thumb_image']}" data-full="${this.environment.productImagesPath + this.product.media[j]['webp_full_image']}" />`);
                             }
                         }
-                    } else {
-                        this.slides = [];
                     }
                 },
                 (error: HttpErrorResponse): void => {

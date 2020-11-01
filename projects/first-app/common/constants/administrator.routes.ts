@@ -59,6 +59,10 @@ export const ADMINISTRATOR_ROUTES: Routes = [
                 component: CategorycreateComponent
             },
             {
+                path: 'categories/:id/edit',
+                component: CategorycreateComponent
+            },
+            {
                 path: 'products',
                 component: ProductsComponent,
                 data: {

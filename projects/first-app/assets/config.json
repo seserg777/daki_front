@@ -1,4 +1,0 @@
-{
-  "textfile": "assets/textfile.txt",
-  "tvurl": "https://api.themoviedb.org/3/discover/tv?with_original_language=en&vote_average.gte=8&timezone=America%2FNew_York&first_air_date_year=2018&sort_by=popularity.desc&language=en&api_key=c5e577a7dce8e6547a62a418ed978db5&page=1"
-}

@@ -1,0 +1,46 @@
+.hero {
+    margin-bottom: 120px;
+}
+.hero h1 {
+    font-family: 'Arno Pro';
+    margin: 9rem 0 40px;
+    font-size: 5rem;
+    line-height: 4rem;
+}
+.hero p {
+    font-size: 1.1rem;
+    line-height: 2rem;
+    font-weight: 500;
+}
+.module_title {
+    font-family: 'Arno Pro';
+    font-size: 4rem;
+    line-height: 4rem;
+    margin-bottom: 40px;
+}
+.module-row {
+    margin-bottom: 255px;
+}
+@media (max-width:479px) and (min-width:320px){
+    h1 {
+        font-size: 2.5rem !important;
+        line-height: 2rem !important;
+        margin: 0 0 25px !important;
+    }
+    .hero p {
+        font-size: 0.8rem;
+        line-height: 1.8rem;
+        text-align: justify;
+    }
+    .module_title {
+        font-size: 2rem;
+        line-height: 2rem;
+        margin-bottom: 25px;;
+    }
+    :host ::ng-deep .swiper-container {
+        padding: 0 !important;
+    }
+    .module-row {
+        margin-bottom: 80px;
+    }
+}

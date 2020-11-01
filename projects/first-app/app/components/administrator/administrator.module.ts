@@ -23,12 +23,14 @@ import { UsersComponent } from '../users/users.component';
 import { UsereditComponent } from '../useredit/useredit.component';
 import { UsergroupsComponent } from '../usergroups/usergroups.component';
 import { UsergroupeditComponent } from '../usergroupedit/usergroupedit.component';
+import { ArticlesComponent } from '../articles/articles.component';
 
 @NgModule({
   declarations: [
     AdministratorComponent,
     ProfileComponent,
     CategorycreateComponent,
+    ArticlesComponent,
     ArticleeditComponent,
     ArticlecreateComponent,
     ProducteditComponent,

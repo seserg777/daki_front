@@ -8,14 +8,24 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { CutTextPipe } from '../common/pipes/cut-text.pipe';
+import { StripHtmlPipe } from '../common/pipes/striphtml.pipe';
+import { ArticleComponent } from './components/article/article.component';
+import { CategoryComponent } from './components/category/category.component';
+import { ManufacturerComponent } from './components/manufacturer/manufacturer.component';
 
 @NgModule({
     declarations: [
+        ManufacturerComponent,
+        CategoryComponent,
+        ArticleComponent,
         PaginationComponent,
         ProductsComponent,
         FilterComponent,
         CategoriesmoduleComponent,
-        CategoriesComponent
+        CategoriesComponent,
+        CutTextPipe,
+        StripHtmlPipe
     ],
     imports: [
         CommonModule,
@@ -31,7 +41,9 @@ import { CategoriesComponent } from './components/categories/categories.componen
         CategoriesmoduleComponent,
         FontAwesomeModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        CutTextPipe,
+        StripHtmlPipe
     ],
     providers: [
 

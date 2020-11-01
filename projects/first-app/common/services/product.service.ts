@@ -76,7 +76,8 @@ export class ProductService {
     manufacturer: [],
     category_id: string = '0',
     ids: string[],
-    state: string = '1'
+    state: string = '1',
+    search: string
   ): Observable<ProductModel[]> {
     return this.httpservice.get<KeyValueInterface<any>[], ProductModel[]>(
       `${environment.apiUrl}product`,
@@ -90,7 +91,8 @@ export class ProductService {
         'manufacturer': manufacturer.toString(),
         'category_id': category_id,
         'ids': ids.toString(),
-        'state': state
+        'state': state,
+        'search': search
       },
       {},
       ProductHelper.createProductModelArray
@@ -112,7 +114,8 @@ export class ProductService {
     manufacturer: [],
     category_id: string = '0',
     ids: string[],
-    state: string
+    state: string,
+    search: string
   ): Observable<number> {
     return this.httpservice.get<number, number>(
       `${environment.apiUrl}product`,
@@ -126,7 +129,8 @@ export class ProductService {
         'manufacturer': manufacturer.toString(),
         'category_id': category_id,
         'ids': ids.toString(),
-        'state': state
+        'state': state,
+        'search': search
       },
       {}/*,
       (data: number): number => data*/

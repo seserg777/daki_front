@@ -194,6 +194,7 @@
         </td>
         <td>
           <img width="64" *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_full_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_full_image'] }}" alt="{{ product.title }}" />
+          ({{ product.media.length }})
         </td>
         <td>{{ product.category_title }}</td>
         <td>

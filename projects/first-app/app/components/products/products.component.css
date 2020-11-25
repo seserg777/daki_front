@@ -179,6 +179,9 @@ h1 {
 .product-quick-view .product-main-image {
     max-width: 100%;
 }
+.products-administrator-container table td {
+    vertical-align: middle;
+}
 @-webkit-keyframes pulse {
     0% {
         transform: scale(0.8);

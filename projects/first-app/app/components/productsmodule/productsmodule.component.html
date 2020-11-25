@@ -7,8 +7,19 @@
                   <div *ngFor="let product of productSegment" class="swiper-slide">
                     <div class="product-container">
                       <div class="media-container d-flex justify-content-center align-items-center" [class.more-media]="product.media.length > 1">
-                        <img *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_thumb_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_thumb_image'] }}" alt="{{ product.title }}" (click)="gotToProduct(product.product_id)" />
-                        <img *ngIf="!!product.media && !!product.media[1] && product.media[1]['webp_thumb_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[1]['webp_thumb_image'] }}" alt="{{ product.title }}" (click)="gotToProduct(product.product_id)" />
+                        <!--<img *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_thumb_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[0]['webp_thumb_image'] }}" alt="{{ product.title }}" (click)="gotToProduct(product.product_id)" />
+                        <img *ngIf="!!product.media && !!product.media[1] && product.media[1]['webp_thumb_image']" class="product-main-image" src="{{ environment.productImagesPath }}{{ product.media[1]['webp_thumb_image'] }}" alt="{{ product.title }}" (click)="gotToProduct(product.product_id)" />-->
+                        
+                        <picture *ngIf="!!product.media && !!product.media[0] && product.media[0]['webp_thumb_image']">
+                          <source srcset="{{ environment.productImagesPath }}{{ product.media[0]['webp_thumb_image'] }}" type="image/webp">
+                          <img src="{{ environment.productImagesPath }}{{ product.media[0]['thumb_image'] }}" class="product-main-image" alt="{{ product.title }}" (click)="gotToProduct(product.product_id)" />
+                        </picture>
+
+                        <picture *ngIf="!!product.media && !!product.media[1] && product.media[1]['webp_thumb_image']">
+                          <source srcset="{{ environment.productImagesPath }}{{ product.media[1]['webp_thumb_image'] }}" type="image/webp">
+                          <img src="{{ environment.productImagesPath }}{{ product.media[1]['thumb_image'] }}" class="product-main-image" alt="{{ product.title }}" (click)="gotToProduct(product.product_id)" />
+                        </picture>
+                        
                         <button type="button" class="add-to-cart-btn d-flex" (click)="addToCart(product)">
                           <fa-icon [icon]="faShoppingBasket"></fa-icon>
                           <span>Выбрать</span>

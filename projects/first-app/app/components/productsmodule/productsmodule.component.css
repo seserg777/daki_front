@@ -23,18 +23,18 @@
     margin-left: -20px;
     margin-right: -20px;
 }
-.media-container img {
+.media-container picture,.media-container picture img {
     width: 100%;
     cursor: pointer;
 }
-.media-container img:nth-child(2) {
+.media-container picture:nth-child(2) {
     position: absolute;
     visibility: hidden;
 }
-.media-container.more-media:hover img:nth-child(1) {
+.media-container.more-media:hover picture:nth-child(1) {
     visibility: hidden;
 }
-.media-container.more-media:hover img:nth-child(2) {
+.media-container.more-media:hover picture:nth-child(2) {
     visibility: visible;
 }
 .product-name {

@@ -24,6 +24,7 @@ import { UsereditComponent } from '../useredit/useredit.component';
 import { UsergroupsComponent } from '../usergroups/usergroups.component';
 import { UsergroupeditComponent } from '../usergroupedit/usergroupedit.component';
 import { ArticlesComponent } from '../articles/articles.component';
+import { NotificationComponent } from '../notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ArticlesComponent } from '../articles/articles.component';
     UsersComponent,
     UsereditComponent,
     UsergroupsComponent,
-    UsergroupeditComponent
+    UsergroupeditComponent,
+    NotificationComponent
   ],
   imports: [
     FontAwesomeModule,

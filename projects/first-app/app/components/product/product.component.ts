@@ -15,6 +15,7 @@ import { environment } from '../../../environments/environment';
 import { SwiperComponent, SwiperDirective, SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { SEOService } from '../../../common/services/seo.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { SanitizerService } from '../../../common/services/sanitizer.service';
 
 @Component({
     selector: 'app-product',
@@ -89,7 +90,8 @@ export class ProductComponent implements OnDestroy, OnInit {
         private clonerService: ClonerService,
         private seoService: SEOService,
         private modalService: NgbModal,
-        private elRef: ElementRef
+        private elRef: ElementRef,
+        private sanitizer: SanitizerService
     ) {
         if (window.screen.width < 980) {
             this.mobile = true;
@@ -204,11 +206,16 @@ export class ProductComponent implements OnDestroy, OnInit {
                         this.seoService.updateDescription(`${this.product.meta_description}`);
                     }
 
+                    product.description = this.sanitizer.sanitize(product.description);
+
                     this.slides = [];
                     if (Object.keys(this.product.media).length > 1) {
                         for (const j of Object.keys(this.product.media)) {
                             if (!!this.product.media[j]['webp_full_image']) {
-                                this.slides.push(`<img rel="preload" as="image" (click)="openModalImg($event)" class="slide-img" src="${this.environment.productImagesPath + this.product.media[j]['webp_thumb_image']}" data-full="${this.environment.productImagesPath + this.product.media[j]['webp_full_image']}" />`);
+                                const datafull: string = this.environment.productImagesPath + product.media[j]['webp_full_image'];
+                                const srcset: string = this.environment.productImagesPath + product.media[j]['webp_thumb_image'];
+                                const src: string = this.environment.productImagesPath + product.media[j]['thumb_image'];
+                                this.slides.push(`<picture><source srcset="${srcset}" type="image/webp"><img (click)="openModalImg($event)" rel="preload" src="${src}" class="slide-img" alt="${product.title}" data-full="${datafull}" /></picture>`);
                             }
                         }
                     }

@@ -20,6 +20,8 @@ import { AttributevalueService } from '../../../common/services/attributevalue.s
 import { AttributevalueModel } from '../../../common/models/attributevalue.model';
 import { faTrashAlt, faSave, faTimesCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { environment } from '../../../environments/environment';
+import { NotificationService } from '../../../common/services/notification.service';
+import { NotificationModel } from '../../../common/models/notification.model';
 
 @Component({
     selector: 'app-productedit',
@@ -64,7 +66,8 @@ export class ProducteditComponent implements OnDestroy {
         private searchService: SearchService,
         private layoutService: LayoutService,
         private attributeService: AttributeService,
-        private attributeValueService: AttributevalueService
+        private attributeValueService: AttributevalueService,
+        private notificationService: NotificationService
     ) {
         this.getItem();
         this.getManufacturers();
@@ -207,8 +210,10 @@ export class ProducteditComponent implements OnDestroy {
 
             this.merged.subscribe(
                 (r: ProductModel): void => {
-                    console.log(r);
-                    this.product = new ProductModel(r);
+                    /*console.log(r);
+                    this.product = new ProductModel(r);*/
+                    const response: NotificationModel = new NotificationModel({type: 'success', msg: 'Product already edited!'});
+                    this.notificationService.next(response);
                     this.router.navigate([`/administrator/products/${r.product_id}/edit`]);
                 },
                 (error: HttpErrorResponse): void => {

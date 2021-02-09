@@ -7,8 +7,8 @@ export const environment = {
     bootstrap: 'Bootstrap 4.5.3',
     fontawesome: 'Font Awesome 5.15.1',
   },
-  apiUrl: 'https://dakifront.peak-systems.ru/api/',
-  attrValuesPath: 'https://dakifront.peak-systems.ru/api/public/images/store/attributes/',
-  productImagesPath: 'https://dakifront.peak-systems.ru/api/public/images/store/products/',
-  path: 'https://dakifront.peak-systems.ru/api/'
+  apiUrl: 'https://daki.in.ua/api/',
+  attrValuesPath: 'https://daki.in.ua/api/public/images/store/attributes/',
+  productImagesPath: 'https://daki.in.ua/api/public/images/store/products/',
+  path: 'https://daki.in.ua/api/'
 };

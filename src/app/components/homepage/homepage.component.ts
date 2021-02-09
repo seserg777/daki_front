@@ -9,7 +9,7 @@ import { SEOService } from '../../../common/services/seo.service';
 
 export class HomePageComponent {
     constructor( private seoService: SEOService ) {
-        this.seoService.updateTitle('Homepage meta-title');
-        this.seoService.updateDescription('Homepage meta-description');
+        this.seoService.updateTitle('Женские куртки оптом и в розницу. В интернет-магазине DaKi от производителя - недорого');
+        this.seoService.updateDescription('Предлагаем купить в нашем интернет-магазине DaKi женские куртки оптом и в розницу недорого. Цена от производителя.\r\nУдобные условия оплаты и доставки.');
     }
 }

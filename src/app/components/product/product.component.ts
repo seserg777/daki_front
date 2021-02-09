@@ -202,13 +202,15 @@ export class ProductComponent implements OnDestroy, OnInit {
                     this.productClone = this.clonerService.deepClone(this.product);
 
                     if (!!this.product.meta_title) {
-                        this.seoService.updateTitle(`${this.product.meta_title}`);
+                        this.seoService.updateTitle(`${this.product.meta_title}  - купить женскую куртку недорого от производителя. В интернет-магазине DaKi`);
                     } else {
-                        this.seoService.updateTitle(`${this.product.title}`);
+                        this.seoService.updateTitle(`${this.product.title}  - купить женскую куртку недорого от производителя. В интернет-магазине DaKi`);
                     }
 
                     if (!!this.product.meta_description) {
                         this.seoService.updateDescription(`${this.product.meta_description}`);
+                    } else {
+                        this.seoService.updateDescription(`В нашем интернет-магазине DaKi Вы можете купить ${this.product.title} недорого. Подробный каталог с описанием и фото. Оптово-розничная продажа женских курток по низким ценам. Гарантия и доставка продукции.`);
                     }
 
                     product.description = this.sanitizer.sanitize(product.description);

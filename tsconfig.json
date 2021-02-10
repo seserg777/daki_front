@@ -4,6 +4,7 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
+    "module": "ESNext",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "target": "es6",

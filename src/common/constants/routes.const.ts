@@ -31,7 +31,7 @@ export const ROUTES: Routes = [
     },
     {
         path: 'administrator',
-        loadChildren: 'app/components/administrator/administrator.module#AdministratorModule'
+        loadChildren: () => import('../../app/components/administrator/administrator.module').then(m => m.AdministratorModule)
     },
     { path: '**', component: NotFoundComponent }
 ];

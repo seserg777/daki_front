@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdministratorComponent } from './administrator/administrator.component';
-import { RouterModule } from '@angular/router';
-import { ADMINISTRATOR_ROUTES } from '../../../common/constants/administrator.routes';
 import { ProfileComponent } from '../profile/profile.component';
 import { CategorycreateComponent } from '../categorycreate/categorycreate.component';
 import { ArticleeditComponent } from '../articleedit/articleedit.component';
@@ -25,6 +23,7 @@ import { UsergroupsComponent } from '../usergroups/usergroups.component';
 import { UsergroupeditComponent } from '../usergroupedit/usergroupedit.component';
 import { ArticlesComponent } from '../articles/articles.component';
 import { NotificationComponent } from '../notification/notification.component';
+import { AdministratorRoutingModule } from './administrator-routing.module';
 
 @NgModule({
   declarations: [
@@ -55,7 +54,7 @@ import { NotificationComponent } from '../notification/notification.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild(ADMINISTRATOR_ROUTES)
+    AdministratorRoutingModule
   ]
 })
 

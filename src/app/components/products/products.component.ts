@@ -422,7 +422,7 @@ export class ProductsComponent implements OnDestroy, OnInit  {
     this.getItems();
   }
 
-  public remove(id: number) {
+  public remove(id: string) {
     if (!!this.productRemoveSubscribe) {
       this.productRemoveSubscribe.unsubscribe();
     }

@@ -22,9 +22,9 @@ export class HeaderadminComponent {
         this.auth.logout();
     }
 
-    public dropdown(event: HTMLInputEvent): void {
+    public dropdown(event: MouseEvent): void {
         this.hideDropdowns();
-        const parent: HTMLElement | null = event.target.parentElement;
+        const parent: HTMLInputElement = event.target as HTMLInputElement;
         if (!!parent) {
             parent.classList.toggle('show');
             const dropdown: HTMLElement | null = parent.querySelector('.dropdown-menu');
@@ -42,13 +42,16 @@ export class HeaderadminComponent {
     }
 
     @HostListener('document:click', ['$event'])
-    public clickOut(event: HTMLInputEvent): void {
+    public clickOut(event: MouseEvent): void {
         if (!this.el.nativeElement.contains(event.target)) {
             this.hideDropdowns();
         }
 
-        if (event.target.tagName.toLowerCase() === 'a') {
-            this.hideDropdowns();
+        const target: HTMLInputElement = event.target as HTMLInputElement;
+        if ( !!target ) {
+            if (target.tagName.toLowerCase() === 'a') {
+                this.hideDropdowns();
+            }
         }
     }
 }

@@ -1,17 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ROUTES } from '../common/constants/routes.const';
 import { BaseComponent } from './components/base/base.component';
 import { HomePageComponent } from './components/homepage/homepage.component';
 import { NotFoundComponent } from './components/notfound/notfound.component';
 import { ProductComponent } from './components/product/product.component';
-import { LoginComponent } from './components/login/login.component';
 import { AuthenticationService } from '../common/services/authentication.service';
-import { AuthGuardService } from '../common/guards/auth.guard';
+import { AuthGuard } from '../common/guards/auth.guard';
 import { CartmoduleComponent } from './components/cartmodule/cartmodule.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../common/interceptors/token.interceptor';
@@ -32,6 +29,7 @@ import { SlidermoduleComponent } from './components/slidermodule/slidermodule.co
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { SearchComponent } from './components/search/search.component';
 import { WishlistmoduleComponent } from './components/wishlistmodule/wishlistmodule.component';
+import { AppRoutingModule } from './app-routing.module';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   observer: true,
@@ -60,7 +58,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     HomePageComponent,
     ProductComponent,
     NotFoundComponent,
-    LoginComponent,
     CartmoduleComponent,
     SafeHtmlPipe,
     ProductsmoduleComponent,
@@ -69,14 +66,14 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   imports: [
     NgbModule,
     BrowserModule.withServerTransition({ appId: 'daki' }),
-    RouterModule.forRoot(ROUTES),
+    AppRoutingModule,
     HttpClientModule,
     SwiperModule,
     SharedModule
   ],
   providers: [
     AuthenticationService,
-    AuthGuardService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

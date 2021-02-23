@@ -233,8 +233,9 @@ export class ProducteditComponent implements OnDestroy {
         }*/
     }
 
-    public onFileChangeHandler(type: string, event?: HTMLInputEvent, id?: number): void {
-        if (!event || !event.target || !event.target.files || !event.target.files.length) {
+    public onFileChangeHandler(type: string, event?: MouseEvent, id?: number): void {
+        const target: HTMLInputElement = event?.target as HTMLInputElement;
+        if (!event || !target || !target.files || !target.files.length) {
           return;
         }
 
@@ -242,13 +243,13 @@ export class ProducteditComponent implements OnDestroy {
 
         switch (type) {
             case 'image': {
-                this.formData.append(`files[${type}][${id}]`, event.target.files[0]);
+                this.formData.append(`files[${type}][${id}]`, target.files[0]);
                 /*console.log(this.formData.get(`files[${type}][${id}]`));*/
                 break;
             }
 
             case 'attr_value_image': {
-                this.formData.append(`files[${type}][${id}]`, event.target.files[0]);
+                this.formData.append(`files[${type}][${id}]`, target.files[0]);
                 /*console.log(this.formData.get(`files[${type}][${id}]`));*/
                 break;
             }
@@ -260,22 +261,25 @@ export class ProducteditComponent implements OnDestroy {
         input.setAttribute('type', 'file');
         input.addEventListener(
             'change',
-            (event: Event): void => this.onFileChangeHandler('image', event as HTMLInputEvent, this.product.product_id)
+            (event: Event): void => this.onFileChangeHandler('image', event as MouseEvent, this.product.product_id)
         );
         input.click();
         input.remove();
     }
 
-    public attrValueFileInput(e: HTMLInputEvent, attr_value_id: number): void {
-        e.target.className = 'btn btn-success';
-        const input: HTMLInputElement = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.addEventListener(
-            'change',
-            (event: Event): void => this.onFileChangeHandler('attr_value_image', event as HTMLInputEvent, attr_value_id)
-        );
-        input.click();
-        input.remove();
+    public attrValueFileInput(e: MouseEvent, attr_value_id: number): void {
+        const target: HTMLInputElement = e.target as HTMLInputElement;
+        if(!!target) {
+            target.className = 'btn btn-success';
+            const input: HTMLInputElement = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.addEventListener(
+                'change',
+                (event: Event): void => this.onFileChangeHandler('attr_value_image', event as MouseEvent, attr_value_id)
+            );
+            input.click();
+            input.remove();
+        }
     }
 
     public getAttributeValues(product_id: string): void {
@@ -311,10 +315,13 @@ export class ProducteditComponent implements OnDestroy {
         }
     }
 
-    public changeAttributeRow(event: HTMLInputEvent, index: number): void {
-        const name: string = event.target.name;
-        this.attributesRows[index][name] = event.target.value;
-        this.editProductForm.controls['attributes'].setValue(JSON.stringify(this.attributesRows));
+    public changeAttributeRow(event: MouseEvent, index: number): void {
+        const target: HTMLInputElement = event.target as HTMLInputElement;
+        if(!!target) {
+            const name: string = target.name;
+            this.attributesRows[index][name] = target.value;
+            this.editProductForm.controls['attributes'].setValue(JSON.stringify(this.attributesRows));
+        }
     }
 
     public removeAttributeRow(index: number): void {
@@ -326,9 +333,9 @@ export class ProducteditComponent implements OnDestroy {
         console.log('removeMedia', media_id);
     }
 
-    public searchChild(event: HTMLInputEvent): void {
-        this.target = event.target;
-        if ( event.target.value.length > 2 ) {
+    public searchChild(event: MouseEvent): void {
+        this.target = event.target as HTMLInputElement;
+        if ( !!this.target && this.target.value.length > 2 ) {
             if (!!this.searchSubscription) {
             this.searchSubscription.unsubscribe();
             }
@@ -338,7 +345,7 @@ export class ProducteditComponent implements OnDestroy {
                 '6',
                 'title',
                 '1',
-                event.target.value
+                this.target.value
             ).subscribe((results: SearchresultModel[]): void => {
                 this.results = {
                     products: [],

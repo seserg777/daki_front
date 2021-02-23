@@ -1,30 +1,31 @@
-import { Routes } from '@angular/router';
-import { AdministratorComponent } from '../../app/components/administrator/administrator/administrator.component';
-import { ManufacturercreateComponent } from '../../app/components/manufacturercreate/manufacturercreate.component';
-import { OrdersComponent } from '../../app/components/orders/orders.component';
-import { OrderComponent } from '../../app/components/order/order.component';
-import { StoreimportComponent } from '../../app/components/storeimport/storeimport.component';
-import { ProfileComponent } from '../../app/components/profile/profile.component';
-import { AuthGuardService } from '../../common/guards/auth.guard';
-import { CategorycreateComponent } from '../../app/components/categorycreate/categorycreate.component';
-import { ArticlecreateComponent } from '../../app/components/articlecreate/articlecreate.component';
-import { ArticleeditComponent } from '../../app/components/articleedit/articleedit.component';
-import { ProducteditComponent } from '../../app/components/productedit/productedit.component';
-import { MediamanagerComponent } from '../../app/components/mediamanger/mediamanager.component';
-import { AttributesComponent } from '../../app/components/attributes/attributes.component';
-import { AttributeeditComponent } from '../../app/components/attributeedit/attributeedit.component';
-import { ProductsComponent } from '../../app/components/products/products.component';
-import { CategoriesComponent } from '../../app/components/categories/categories.component';
-import { UsersComponent } from '../../app/components/users/users.component';
-import { UsereditComponent } from '../../app/components/useredit/useredit.component';
-import { UsergroupsComponent } from '../../app/components/usergroups/usergroups.component';
-import { UsergroupeditComponent } from '../../app/components/usergroupedit/usergroupedit.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '../../../common/guards/auth.guard';
+import { ArticlecreateComponent } from '../articlecreate/articlecreate.component';
+import { ArticleeditComponent } from '../articleedit/articleedit.component';
+import { AttributeeditComponent } from '../attributeedit/attributeedit.component';
+import { AttributesComponent } from '../attributes/attributes.component';
+import { CategoriesComponent } from '../categories/categories.component';
+import { CategorycreateComponent } from '../categorycreate/categorycreate.component';
+import { ManufacturercreateComponent } from '../manufacturercreate/manufacturercreate.component';
+import { MediamanagerComponent } from '../mediamanger/mediamanager.component';
+import { OrderComponent } from '../order/order.component';
+import { OrdersComponent } from '../orders/orders.component';
+import { ProducteditComponent } from '../productedit/productedit.component';
+import { ProductsComponent } from '../products/products.component';
+import { ProfileComponent } from '../profile/profile.component';
+import { StoreimportComponent } from '../storeimport/storeimport.component';
+import { UsereditComponent } from '../useredit/useredit.component';
+import { UsergroupeditComponent } from '../usergroupedit/usergroupedit.component';
+import { UsergroupsComponent } from '../usergroups/usergroups.component';
+import { UsersComponent } from '../users/users.component';
+import { AdministratorComponent } from './administrator/administrator.component';
 
-export const ADMINISTRATOR_ROUTES: Routes = [
+const routes: Routes = [
     {
         path: '',
         component: AdministratorComponent,
-        canActivate: [AuthGuardService],
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'profile',
@@ -120,3 +121,8 @@ export const ADMINISTRATOR_ROUTES: Routes = [
         ]
     }
 ]
+@NgModule({
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
+})
+export class AdministratorRoutingModule { }

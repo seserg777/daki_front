@@ -1,50 +1,37 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { HomeComponent } from './modules/general/home/home.component';
-import { NotFoundComponent } from './modules/general/not-found/not-found.component';
+import { BaseComponent } from './components/base/base.component';
+import { HomePageComponent } from './components/homepage/homepage.component';
+import { NotFoundComponent } from './components/notfound/notfound.component';
+import { ProductComponent } from './components/product/product.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, },
   {
-    path: 'template-driven-forms',
-    loadChildren: () => import('./modules/application/example-template-driven-forms/tutorial.module')
-      .then(mod => mod.TutorialModule)
+    path: '',
+    component: BaseComponent,
+    children: [
+        {
+            path: '',
+            component: HomePageComponent,
+            pathMatch: 'full'
+        },
+        {
+            path: '404',
+            component: NotFoundComponent
+        },
+        {
+            path: 'products/:id',
+            component: ProductComponent
+        },
+        {
+            path: 'login',
+            loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule),
+        }
+    ]
   },
   {
-    path: 'components',
-    loadChildren: () => import('./modules/application/example-components/tutorial.module')
-      .then(mod => mod.TutorialModule)
-  },
-  {
-    path: 'services',
-    loadChildren: () => import('./modules/application/example-services/tutorial.module')
-      .then(mod => mod.TutorialModule)
-  },
-  {
-    path: 'reactive-form',
-    loadChildren: () => import('./modules/application/example-reactive-form/tutorial.module')
-      .then(mod => mod.TutorialModule)
-  },
-  {
-    path: 'bootstrap-prototype',
-    loadChildren: () => import('./modules/application/example-bootstrap-prototype/example-bootstrap-prototype.module')
-      .then(mod => mod.ExampleBootstrapPrototypeModule)
-  },
-  {
-    path: 'contact',
-    loadChildren: () => import('./modules/general/contact/contact.module')
-      .then(mod => mod.ContactModule)
-  },
-  {
-    path: 'about',
-    loadChildren: () => import('./modules/general/about/about.module')
-      .then(mod => mod.AboutModule)
-  },
-  {
-    path: 'signin',
-    loadChildren: () => import('./modules/general/signin/signin.module')
-      .then(mod => mod.SigninModule)
+      path: 'administrator',
+      loadChildren: () => import('./components/administrator/administrator.module').then(m => m.AdministratorModule)
   },
   { path: '**', component: NotFoundComponent }
 ];

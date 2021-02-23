@@ -52,30 +52,34 @@ export class StoreimportComponent {
         }
     }
 
-    public onFileChangeHandler(event?: HTMLInputEvent): void {
-        if (!event || !event.target || !event.target.files || !event.target.files.length) {
+    public onFileChangeHandler(event?: MouseEvent): void {
+        const target: HTMLInputElement = event?.target as HTMLInputElement;
+        if (!event || !target || !target.files || !target.files.length) {
           return;
         }
 
-        const type = event.target.dataset.type || '';
-        this.formData.append(type, event.target.files[0]);
+        const type = target.dataset.type || '';
+        this.formData.append(type, target.files[0]);
 
         this.onSubmit(type);
     }
 
-    public emitFileInputClick(e?: HTMLInputEvent): void {
+    public emitFileInputClick(e?: MouseEvent): void {
+        const target: HTMLInputElement = e?.target as HTMLInputElement;
         if (!e || !e.target) {
             return;
         }
 
-        const type = e.target.dataset.type || '';
-        const input: HTMLInputElement = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('data-type', type);
-        input.addEventListener(
-            'change',
-            (event: Event): void => this.onFileChangeHandler(event as HTMLInputEvent)
-        );
-        input.click();
+        if(!!target) {
+            const type = target.dataset.type || '';
+            const input: HTMLInputElement = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('data-type', type);
+            input.addEventListener(
+                'change',
+                (event: Event): void => this.onFileChangeHandler(event as MouseEvent)
+            );
+            input.click();
+        }
     }
 }

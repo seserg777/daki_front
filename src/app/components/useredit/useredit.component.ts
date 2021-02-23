@@ -110,20 +110,21 @@ export class UsereditComponent implements OnDestroy {
         );
     }
 
-    public onFileChangeHandler(type: string, event?: HTMLInputEvent, id?: string): void {
-        if (!event || !event.target || !event.target.files || !event.target.files.length) {
+    public onFileChangeHandler(type: string, event?: MouseEvent, id?: string): void {
+        const target: HTMLInputElement = event?.target as HTMLInputElement;
+        if (!event || !event.target || !target.files || !target.files.length) {
           return;
         }
 
         switch (type) {
             case 'image': {
-                this.formData.append(`files[${type}][${id}]`, event.target.files[0]);
+                this.formData.append(`files[${type}][${id}]`, target.files[0]);
                 /*console.log(this.formData.get(`files[${type}][${id}]`));*/
                 break;
             }
 
             case 'attr_value_image': {
-                this.formData.append(`files[${type}][${id}]`, event.target.files[0]);
+                this.formData.append(`files[${type}][${id}]`, target.files[0]);
                 /*console.log(this.formData.get(`files[${type}][${id}]`));*/
                 break;
             }
@@ -135,7 +136,7 @@ export class UsereditComponent implements OnDestroy {
         input.setAttribute('type', 'file');
         input.addEventListener(
             'change',
-            (event: Event): void => this.onFileChangeHandler('image', event as HTMLInputEvent, this.user.id)
+            (event: Event): void => this.onFileChangeHandler('image', event as MouseEvent, this.user.id)
         );
         input.click();
     }

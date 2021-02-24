@@ -24,7 +24,6 @@ import { SharedModule } from './shared.module';
 import { LanguagefilterComponent } from './components/languagefilter/languagefilter.component';
 import { ArticleslatestComponent } from './components/articleslatest/articleslatest.component';
 import { HeaderComponent } from './components/header/header.component';
-import { RegisterComponent } from './components/register/register.component';
 import { SlidermoduleComponent } from './components/slidermodule/slidermodule.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { SearchComponent } from './components/search/search.component';
@@ -50,7 +49,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     SearchComponent,
     WishlistComponent,
     SlidermoduleComponent,
-    RegisterComponent,
     HeaderComponent,
     ArticleslatestComponent,
     AppComponent,

@@ -77,8 +77,9 @@ export class ProductComponent implements OnDestroy, OnInit {
         }
     };
 
-    private productSubscribe: Subscription;
-    private productRemoveSubscribe: Subscription;
+    private routeSubscribe$: Subscription;
+    private productSubscribe$: Subscription;
+    private productRemoveSubscribe$: Subscription;
 
     constructor(
         private route: ActivatedRoute,
@@ -100,7 +101,7 @@ export class ProductComponent implements OnDestroy, OnInit {
 
         this.isLoggedIn = this.auth.isLogged();
 
-        this.route.params.subscribe(() => {
+        this.routeSubscribe$ = this.route.params.subscribe(() => {
             this.getItem();
         });
     }
@@ -195,7 +196,7 @@ export class ProductComponent implements OnDestroy, OnInit {
         /*console.log('getItem');*/
         const routeParam: string | null = this.product_id ? this.product_id.toString() : this.route.snapshot.paramMap.get('id');
         if (typeof routeParam === 'string') {
-            this.productSubscribe = this.productService.getProduct(routeParam).subscribe(
+            this.productSubscribe$ = this.productService.getProduct(routeParam).subscribe(
                 (product: ProductModel): void => {
                     /*console.log(product);*/
                     this.product = product;
@@ -237,7 +238,7 @@ export class ProductComponent implements OnDestroy, OnInit {
     }
 
     public remove(id: number) {
-        this.productRemoveSubscribe = this.productService.remove(id.toString())
+        this.productRemoveSubscribe$ = this.productService.remove(id.toString())
         .subscribe(
             (r: KeyValueInterface<any>): void => {
                 console.log(r);
@@ -265,11 +266,14 @@ export class ProductComponent implements OnDestroy, OnInit {
     }
 
     public ngOnDestroy(): void {
-        if (!!this.productSubscribe) {
-            this.productSubscribe.unsubscribe();
+        if (!!this.productSubscribe$) {
+            this.productSubscribe$.unsubscribe();
         }
-        if (!!this.productRemoveSubscribe) {
-            this.productRemoveSubscribe.unsubscribe();
+        if (!!this.productRemoveSubscribe$) {
+            this.productRemoveSubscribe$.unsubscribe();
+        }
+        if (!!this.routeSubscribe$) {
+            this.routeSubscribe$.unsubscribe();
         }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit   } from '@angular/core';
+import { Component, OnDestroy   } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArticleModel } from '../../../common/models/article.model';
 import { ArticleService } from '../../../common/services/article.service';
@@ -7,16 +7,18 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Title } from '@angular/platform-browser';
 import { KeyValueInterface } from '../../../common/interfaces/key-value.interface';
 import { AuthenticationService } from '../../../common/services/authentication.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-aricle',
     templateUrl: 'article.component.html'
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnDestroy {
     public article: ArticleModel = new ArticleModel;
     public faEdit = faEdit;
     public faTrashAlt = faTrashAlt;
     public isLoggedIn: boolean;
+    private subscription$: Subscription;
 
     constructor(
         private route: ActivatedRoute,
@@ -26,12 +28,13 @@ export class ArticleComponent implements OnInit {
         private auth: AuthenticationService
     ) {
         this.isLoggedIn = this.auth.isLogged();
+        this.getArticle();
     }
 
     public getArticle() {
         const routeParam: string | null = this.route.snapshot.paramMap.get('id');
         if (typeof routeParam === 'string') {
-            this.articleService.getPost(routeParam)
+            this.subscription$ = this.articleService.getPost(routeParam)
             .subscribe(
                 (article: ArticleModel): void => {
                     this.article = article;
@@ -47,10 +50,8 @@ export class ArticleComponent implements OnInit {
         }
     }
 
-    public remove(id) {
-        console.log('remove ' + id);
-
-        this.articleService.remove(id)
+    public remove(id: string): void {
+        const subsciption$: Subscription = this.articleService.remove(id)
         .subscribe(
             (r: KeyValueInterface<any>): void => {
                 console.log(r);
@@ -60,9 +61,12 @@ export class ArticleComponent implements OnInit {
                 console.error(error);
             }
         );
+        subsciption$.unsubscribe();
     }
 
-    public ngOnInit() {
-        this.getArticle();
+    public ngOnDestroy() {
+        if (!!this.subscription$) {
+            this.subscription$.unsubscribe();
+        }
     }
 }

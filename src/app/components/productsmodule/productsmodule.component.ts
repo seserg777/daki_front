@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { ProductService } from '../../../common/services/product.service';
 import { CartService } from '../../../common/services/cart.service';
@@ -16,7 +16,7 @@ import { faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
     styleUrls: ['productsmodule.component.css'],
     templateUrl: 'productsmodule.component.html'
 })
-export class ProductsmoduleComponent implements OnDestroy {
+export class ProductsmoduleComponent implements OnInit, OnDestroy {
   @ViewChild( SwiperComponent, { read: false } ) public componentRef?: SwiperComponent;
 
   @ViewChild( SwiperDirective, { read: false } ) public directiveRef?: SwiperDirective;
@@ -36,7 +36,6 @@ export class ProductsmoduleComponent implements OnDestroy {
 
   public config: SwiperConfigInterface = {
     direction: 'horizontal',
-    slidesPerView: 5,
     keyboard: true,
     mousewheel: true,
     scrollbar: false,
@@ -46,7 +45,6 @@ export class ProductsmoduleComponent implements OnDestroy {
     loop: false,
     //autoplay: this.autoplay,
     autoplay: false,
-    spaceBetween: 20,
     breakpoints: {
       320: {
         slidesPerView: 1,
@@ -63,6 +61,10 @@ export class ProductsmoduleComponent implements OnDestroy {
       980: {
         slidesPerView: 3,
         spaceBetween: 30
+      },
+      1024: {
+        slidesPerView: 4,
+        spaceBetween: 40
       }
     }
   };
@@ -86,7 +88,9 @@ export class ProductsmoduleComponent implements OnDestroy {
     private productService: ProductService,
     private cartService: CartService,
     private router: Router
-  ) {
+  ) { }
+
+  public ngOnInit(): void {
     if (window.screen.width < 980) {
       this.mobile = true;
       this.config.autoplay = true;

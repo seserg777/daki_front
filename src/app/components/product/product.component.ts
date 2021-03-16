@@ -92,7 +92,9 @@ export class ProductComponent implements OnDestroy, OnInit {
         private modalService: NgbModal,
         private elRef: ElementRef,
         private sanitizer: SanitizerService
-    ) {
+    ) { }
+
+    public ngOnInit(): void {
         if (window.screen.width < 980) {
             this.mobile = true;
             this.config.direction = 'horizontal';
@@ -104,9 +106,7 @@ export class ProductComponent implements OnDestroy, OnInit {
         this.routeSubscribe$ = this.route.params.subscribe(() => {
             this.getItem();
         });
-    }
 
-    public ngOnInit(): void {
         if (this.mobile === true) {
             this.type = 'component';
             const container: HTMLElement | null = this.elRef.nativeElement.querySelector('.component-container');
@@ -251,8 +251,6 @@ export class ProductComponent implements OnDestroy, OnInit {
     }
 
     public addToCart(product: ProductModel) {
-        /*console.log(product);*/
-        /*console.log(this.attrSelected);*/
         this.cartService.dispatch(
             new CartproductModel({
                 product_id: product.product_id,

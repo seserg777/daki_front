@@ -296,6 +296,7 @@
         padding: 10px 25px;
         background: #f8f9fa!important;
         z-index: 99;
+        min-height: 70px;
     }
     .left-side-menu.nav-open {
         height: 100vh;
